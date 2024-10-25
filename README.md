@@ -15,11 +15,11 @@ _Nell'immagine un esempio di carte da gioco stampate in modo "random" come sfond
 
 Nel 1985 Carlo e Lorenzo Barazzetta hanno sviluppato la libreria "CARD", con la quale hanno poi sviluppato 3 giochi, pubblicati da Systems Editoriale nel anni seguenti:
 
-## - Black Jack (1986)
+## - [Black Jack (1986)](BlackJack.D64)
 
-## - Briscola (1987)
+## - [Briscola (1987)](./Briscola.D64)
 
-## - Poker 4 (1987)
+## - [Poker 4 (1987)](./Poker4.D64)
 
 ![./Black_Jack](./Black_Jack.png)
 
