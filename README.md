@@ -17,9 +17,11 @@ _Nell'immagine un esempio di carte da gioco stampate in modo "random" come sfond
 
 Tra il 1985 e il 1987, Carlo e Lorenzo Barazzetta hanno sviluppato 3 giochi, pubblicati da Systems Editoriale:
 
-Black Jack
-Briscola
-Poker 4
+## - Black Jack
+
+## - Briscola
+
+## - Poker 4
 
 ![./Black_Jack](./Black_Jack.png)
 
