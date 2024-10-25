@@ -15,7 +15,7 @@ E' possibile visualizzare ogni tipo di carta in ogni parte del video.
 
 _Nell'immagine un esempio di carte da gioco stampate in modo "random" come sfondo iniziale del gioco "Briscola" scritto in Basic sfruttando il programma CARD._
 
-Tra il 1985 e il 1987, Carlo e Lorenzo Barazzetta hanno sviluppato 3 giochi, pubblicati da System Editoriale:
+Tra il 1985 e il 1987, Carlo e Lorenzo Barazzetta hanno sviluppato 3 giochi, pubblicati da Systems Editoriale:
 
 Black Jack
 Briscola
@@ -25,7 +25,7 @@ Poker 4
 
 _Nell'immagine la schermata iniziale di Black Jack._
 
-Il gioco di Poker 4 mostrava anche una "copertina" ed aveva una caratteristica unica tra i giochi di carte, ovvero la possibilit‡ di giocare contro 3 computer, con "personalit‡" diverse.
+Il gioco di Poker 4 mostrava anche una "copertina" ed aveva una caratteristica unica tra i giochi di carte, ovvero la possibilit√† di giocare contro 3 computer, con "personalit√†" diverse.
 
 ![./Poker4_image](./Poker4_image.png)
 
