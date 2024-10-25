@@ -1,6 +1,4 @@
-# MANUALE CARD [![License](https://img.shields.io/badge/License-Apache%202.0-yellowgreen.svg)](https://opensource.org/licenses/Apache-2.0)
-
-# PROGRAMMA "CARD" PER COMMODORE 64 - BASIC V2
+# # PROGRAMMA "CARD" PER COMMODORE 64 - BASIC V2 [![License](https://img.shields.io/badge/License-Apache%202.0-yellowgreen.svg)](https://opensource.org/licenses/Apache-2.0)
 
 ### A COSA SERVE IL PROGRAMMA "CARD"
 Il programma **CARD** serve per sviluppare giochi con le carte con il Commodore 64.
