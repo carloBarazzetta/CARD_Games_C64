@@ -1,89 +1,94 @@
-﻿# # PROGRAMMA "CARD" PER COMMODORE 64 - BASIC V2 [![License](https://img.shields.io/badge/License-Apache%202.0-yellowgreen.svg)](https://opensource.org/licenses/Apache-2.0)
+🇬🇧 **English** | 🇮🇹 [Italiano](LEGGIMI.md)
+
+# "CARD" PROGRAM FOR COMMODORE 64 - BASIC V2 [![License](https://img.shields.io/badge/License-Apache%202.0-yellowgreen.svg)](https://opensource.org/licenses/Apache-2.0)
 
 ---
-### A COSA SERVE IL PROGRAMMA "CARD"
-Il programma **CARD** serve per sviluppare giochi con le carte con il Commodore 64.
+### WHAT IS THE "CARD" PROGRAM FOR
+The **CARD** program is used to develop card games for the Commodore 64.
 
-Il comando CARD estende il BASIC V2 per poter stampare le carte da gioco sullo schermo.
+The CARD command extends BASIC V2 to print playing cards on screen.
 
-Le carte sono visualizzate con simboli grafici ridefiniti.
+Cards are displayed using redefined graphic symbols.
 
-E' possibile visualizzare ogni tipo di carta in ogni parte del video.
+It is possible to display any type of card anywhere on the screen.
 
 ![./Briscola](./Briscola.png)
 
-_Nell'immagine un esempio di carte da gioco stampate in modo "random" come sfondo iniziale del gioco "Briscola" scritto in BASIC sfruttando il programma CARD._
+_In the image, an example of playing cards printed randomly as the initial background of the "Briscola" game written in BASIC using the CARD program._
 
-Nel 1985 Carlo e Lorenzo Barazzetta hanno sviluppato la libreria "CARD", con la quale hanno poi sviluppato 3 giochi, pubblicati da Systems Editoriale negli anni seguenti:
+In 1985, Carlo and Lorenzo Barazzetta developed the "CARD" library, with which they then developed 3 games, published by Systems Editoriale in the following years.
 
-## - [Black Jack (1986) in formato D64](BlackJack.D64)
-## - [Black Jack (1986) in formato Snapshop per Vice C64 Emulator](BlackJack-vice-snapshot.vsf)
+Links to the 3 original games from the 80s:
 
-## - [Briscola (1987) in formato D64](./Briscola.D64)
-## - [Briscola (1987) in formato Snapshop per Vice C64 Emulator](./Briscola-vice-snapshot.vsf)
+- [Black Jack (1986) in D64 format](BlackJack.D64)
+- [Black Jack (1986) as Vice C64 Emulator Snapshot](BlackJack-vice-snapshot.vsf)
+- [Briscola (1987) in D64 format](./Briscola.D64)
+- [Briscola (1987) as Vice C64 Emulator Snapshot](./Briscola-vice-snapshot.vsf)
+- [Poker 4 (1987) in D64 format](./Poker4.D64)
+- [Poker 4 (1987) as Vice C64 Emulator Snapshot](./Poker4-vice-snapshot.vsf)
 
-## - [Poker 4 (1987) in formato D64](./Poker4.D64)
-## - [Poker 4 (1987) in formato Snapshop per Vice C64 Emulator](./Poker4-vice-snapshot.vsf)
+---
 
 ![./Black_Jack](./Black_Jack.png)
 
-_Nell'immagine la schermata iniziale di Black Jack._
+_In the image, the Black Jack title screen._
 
-Il gioco di Poker 4 mostrava anche una "copertina" ed aveva una caratteristica unica tra i giochi di carte, ovvero la possibilità di giocare contro 3 computer, con "personalità" diverse.
+---
+
+The Poker 4 game also featured a "cover screen" and had a unique characteristic among card games: the ability to play against 3 computer opponents, each with different "personalities".
 
 ![./Poker4_image](./Poker4_image.png)
 
-In questo repository trovate i 4 file dei giochi (in formato D64 e Snapshot per Vice C64 Emulator) e il manuale per programmare altri giochi in BASIC.
+In this repository you will find game files (in D64 format and Snapshots for Vice C64 Emulator), the manual for programming other games in BASIC and the source code of Games.
 
 ---
 ## BRISCOLA 2 - 2024
 
-Il gioco della Briscola originale è stato aggiornato nel 2024, con queste nuove funzionalità:
+The original Briscola game was updated in 2024, with these new features:
 
-- il giocatore umano ed il computer, all'inizio di ogni partita, iniziano a turno a giocare la prima carta (chi inizia a giocare nella prima partita è casuale).
-- modificate le istruzioni del gioco per renderle più leggibili
-- modificato il codice BASIC per renderlo più leggibile
-- il puntaggio finale viene mostrato per un tempo più lungo
-- corretto un bug nell'IA
+- the human player and the computer, at the beginning of each game, take turns playing the first card (who starts playing in the first game is random).
+- game instructions revised for better readability
+- BASIC code revised for better readability
+- final score is now displayed for a longer time
+- fixed a bug in the AI
 
 ![./Briscola2](./Briscola2.png)
 
-_Nell'immagine lo splash screen iniziale del gioco "Briscola 2" aggiornato nel 2024._
+_In the image, the splash screen of the "Briscola 2" game updated in 2024._
 
-Puoi scaricare i files:
-- [Briscola 2 (2024) in formato D64](./Briscola2.D64)
-- [Briscola 2 (2024) in formato Snapshop per Vice C64 Emulator](./Briscola2-vice-snapshot.vsf)
+You can download the files:
+- [Briscola 2 (2024) in D64 format](./Briscola2.D64)
+- [Briscola 2 (2024) as Vice C64 Emulator Snapshot](./Briscola2-vice-snapshot.vsf)
 
 ---
-## BRISCOLA IN INGLESE - 2026
+## BRISCOLA IN ENGLISH - 2026
 
-Nel 2026, il gioco Briscola 2 è stato tradotto in inglese, e ulteriormente corretto.
+In 2026, the Briscola 2 game was translated into English and further improved.
 
 ![./Briscola-en](./Briscola-en.png)
 
-_Nell'immagine lo splash screen iniziale del gioco "Briscola" tradotto in inglese nel 2026._
+_In the image, the splash screen of the "Briscola" game translated into English in 2026._
 
-Puoi scaricare i files:
-- [Briscola italiano (2026) in formato D64](./Briscola-it.D64)
-- [Briscola italiano (2026) in formato Snapshop per Vice C64 Emulator](./Briscola-it-vice-snapshot.vsf)
-- [Briscola inglese (2026) in formato D64](./Briscola-en.D64)
-- [Briscola inglese (2026) in formato Snapshop per Vice C64 Emulator](./Briscola-en-vice-snapshot.vsf)
-
----
-## DOCUMENTAZIONE E MANUALI
-
-Nella sezione ["Wiki"](https://github.com/carloBarazzetta/CARD_Games_C64/wiki) trovate il manuale online per utilizzare il programma CARD.
+You can download the files:
+- [Briscola Italian (2026) in D64 format](./Briscola-it.D64)
+- [Briscola Italian (2026) as Vice C64 Emulator Snapshot](./Briscola-it-vice-snapshot.vsf)
+- [Briscola English (2026) in D64 format](./Briscola-en.D64)
+- [Briscola English (2026) as Vice C64 Emulator Snapshot](./Briscola-en-vice-snapshot.vsf)
 
 ---
-## SORGENTI E SVILUPPO
+## DOCUMENTATION AND MANUALS
 
-Nella cartella Dev ci sono i sorgenti dei vari progetti realizzati con CARD.
+In the ["Wiki"](https://github.com/carloBarazzetta/CARD_Games_C64/wiki) section you will find the online manual for using the CARD program.
 
-Potete modificare i sorgenti e fare la build dei file .D64 tramite VICE: per usare la vostra versione di VICE dovete correggere il file build-d64.bat alla riga:
+---
+## SOURCES AND DEVELOPMENT
+
+In the Dev folder you will find the source code for the various projects built with CARD.
+
+You can modify the sources and build .D64 files using VICE: to use your own version of VICE, edit the build-d64.bat file at the line:
 ```
 set VICE_DIR=D:\App\GTK3VICE-win64\bin
 ```
-Buon divertimento.
+Have fun.
 
-### Copyright (c) 1985-2026 - Carlo & Lorenzo Barazzetta
-
+### Copyright © 1985-2026 - Carlo & Lorenzo Barazzetta
