@@ -1,23 +1,6 @@
 ﻿# # PROGRAMMA "CARD" PER COMMODORE 64 - BASIC V2 [![License](https://img.shields.io/badge/License-Apache%202.0-yellowgreen.svg)](https://opensource.org/licenses/Apache-2.0)
 
 ---
-Nel 2024, Carlo e Lorenzo Barazzetta, hanno modificato il gioco della Briscola originale e hanno prodotto il gioco Briscola 2.
-
-Queste sono le caratteristiche aggiunte nella Briscola 2:
-- il giocatore umano ed il computer, all'inizio di ogni partita, iniziano a turno a giocare la prima carta (chi inizia a giocare nella prima partita è casuale).
-- modificate le istruzioni del gioco per renderle più leggibili
-- modificato il codice BASIC per renderlo più leggibile
-- il puntaggio finale viene mostrato per un tempo più lungo
-- corretto un bug nell'IA
-
-![./Briscola2](./Briscola2.png)
-
-_Immagine iniziale del gioco "Briscola 2" scritto in BASIC sfruttando il programma CARD, partendo dal gioco "Briscola"._
-
-## - [Briscola 2 (2024) in formato D64](./Briscola2.D64)
-## - [Briscola 2 (2024) in formato Snapshop per Vice C64 Emulator](./Briscola2-vice-snapshot.vsf)
----
-
 ### A COSA SERVE IL PROGRAMMA "CARD"
 Il programma **CARD** serve per sviluppare giochi con le carte con il Commodore 64.
 
@@ -52,9 +35,55 @@ Il gioco di Poker 4 mostrava anche una "copertina" ed aveva una caratteristica u
 
 In questo repository trovate i 4 file dei giochi (in formato D64 e Snapshot per Vice C64 Emulator) e il manuale per programmare altri giochi in BASIC.
 
-Nella sezione ["Wiki"](https://github.com/carloBarazzetta/CARD_Games_C64/wiki) trovate il manuale online.
+---
+## BRISCOLA 2 - 2024
 
+Il gioco della Briscola originale è stato aggiornato nel 2024, con queste nuove funzionalità:
+
+- il giocatore umano ed il computer, all'inizio di ogni partita, iniziano a turno a giocare la prima carta (chi inizia a giocare nella prima partita è casuale).
+- modificate le istruzioni del gioco per renderle più leggibili
+- modificato il codice BASIC per renderlo più leggibile
+- il puntaggio finale viene mostrato per un tempo più lungo
+- corretto un bug nell'IA
+
+![./Briscola2](./Briscola2.png)
+
+_Nell'immagine lo splash screen iniziale del gioco "Briscola 2" aggiornato nel 2024._
+
+Puoi scaricare i files:
+- [Briscola 2 (2024) in formato D64](./Briscola2.D64)
+- [Briscola 2 (2024) in formato Snapshop per Vice C64 Emulator](./Briscola2-vice-snapshot.vsf)
+
+---
+## BRISCOLA IN INGLESE - 2026
+
+Nel 2026, il gioco Briscola 2 è stato tradotto in inglese, e ulteriormente corretto.
+
+![./Briscola-en](./Briscola-en.png)
+
+_Nell'immagine lo splash screen iniziale del gioco "Briscola" tradotto in inglese nel 2026._
+
+Puoi scaricare i files:
+- [Briscola italiano (2026) in formato D64](./Briscola-it.D64)
+- [Briscola italiano (2026) in formato Snapshop per Vice C64 Emulator](./Briscola-it-vice-snapshot.vsf)
+- [Briscola inglese (2026) in formato D64](./Briscola-en.D64)
+- [Briscola inglese (2026) in formato Snapshop per Vice C64 Emulator](./Briscola-en-vice-snapshot.vsf)
+
+---
+## DOCUMENTAZIONE E MANUALI
+
+Nella sezione ["Wiki"](https://github.com/carloBarazzetta/CARD_Games_C64/wiki) trovate il manuale online per utilizzare il programma CARD.
+
+---
+## SORGENTI E SVILUPPO
+
+Nella cartella Dev ci sono i sorgenti dei vari progetti realizzati con CARD.
+
+Potete modificare i sorgenti e fare la build dei file .D64 tramite VICE: per usare la vostra versione di VICE dovete correggere il file build-d64.bat alla riga:
+```
+set VICE_DIR=D:\App\GTK3VICE-win64\bin
+```
 Buon divertimento.
 
-### Copyright (c) 1985-2024 - Carlo & Lorenzo Barazzetta
+### Copyright (c) 1985-2026 - Carlo & Lorenzo Barazzetta
 
