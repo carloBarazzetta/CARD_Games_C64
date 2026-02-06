@@ -1,6 +1,6 @@
 
 
-;D:\DEV\CardGamesC64\extracted\Briscola2\start-briscola-2.prg ==0801==
+;D:\DEV\CardGamesC64\CARD_Games_C64\Dev\Briscola-it\start-briscola-i.prg ==0801==
    10 rem start briscola it
    15 print chr$(147);
    20 print"poke 44,16:poke 4096,0:new"

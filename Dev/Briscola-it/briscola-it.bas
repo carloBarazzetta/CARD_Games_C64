@@ -1,6 +1,6 @@
 
 
-;D:\DEV\CardGamesC64\extracted\Briscola2\briscola-2.prg ==1001==
+;D:\DEV\CardGamesC64\CARD_Games_C64\Dev\Briscola-it\briscola-it.prg ==0801==
    10 rem briscola it
    20 rem by carlo & lorenzo barazzetta
    30 rem basic + comando 'card'
