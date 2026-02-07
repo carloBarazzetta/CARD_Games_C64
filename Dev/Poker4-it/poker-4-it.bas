@@ -136,12 +136,9 @@
   810 next
   885 gosub55000
   900 forw=1to3
-  905 print"{home}";
-  910 forw1=1tow*14-13+6-len(n$(w))/2:print"{rght}";:next:print"{left}{rvon}{grn}"n$(w)
+  905 cx=(w-1)*14:cy=0:cw=12:c$=n$(w):cc=5:gosub59950
   920 next
-  925 print"{home}{down}{down}{down}{down}{down}{down}{down}{down}{down}{down}{down}{down}{down}{down}{down}{down}{down}{down}{down}{down}{down}{down}{down}{down}";
-  927 forw=1to(21-len(n$(4)))/2:print"{rght}";:next:print"{rvon}{grn}"n$(4);
-  928 bn$="{home}{down}{down}{down}{down}{down}{down}{down}{down}{down}{down}{down}{down}{down}{down}{down}{down}{down}{down}{down}{down}{down}{down}{down}{down}"
+  925 cx=0:cy=24:cw=20:c$=n$(4):cc=5:gosub59950
   930 forw=1to4:gosub57005:nextw
   940 gosub56000
   950 in$="{home}{down}{down}{down}{down}{down}{down}{down}{down}{down}{down}{down}{down}{down}{down}{down}{down}{down}{down}{down}{down}{down}{down}{down}{blk}{rvon}"
@@ -183,7 +180,7 @@
  1190 ifg=4thengosub11000:fl=1:goto1250
  1200 gosub14000:fl=1
  1250 g=g+1:nextw5
- 1255 ifvs(1)<=0andvs(2)<=0andvs(3)<=0andvs(4)<=0thenforw=1to1000:next:goto1007
+ 1255 ifvs(1)<=0andvs(2)<=0andvs(3)<=0andvs(4)<=0thenforw=1to500:next:goto1007
  1260 iffl=1then1157
  1270 pu=0:gosub56000
  1272 gosub62000:ifc0=3then1850
@@ -255,7 +252,7 @@
  2050 ms=12:gj=4:gosub58000
  2055 goto1000
  2060 rem fine partita
- 2061 forw=1to500:next:poke198,0
+ 2061 forw=1to250:next:poke198,0
  2062 ms=12:gj=4:gosub58000
  2065 print"{clr}"
  2070 fora=1to100
@@ -287,7 +284,7 @@
 10520 poke54285,8*16+2
 10530 poke54283,8
 10535 poke54283,33
-10540 forw7=1to200:next
+10540 forw7=1to100:next
 10550 poke54283,32
 10560 poke198,0
 10590 return
@@ -357,7 +354,7 @@
 14200 sl=rd:ifsl>pmthensl=pm
 14202 ifsl>s(g)thensl=s(g)
 14203 ifsl<anthenms=5:gosub58000:return
-14205 ms=2:gosub58000:print"{rvon}";sl;"e":rem apre di sl
+14205 ms=2:gosub58000:c$="di "+mid$(str$(sl),2)+" e":gosub59950
 14210 s(g)=s(g)-sl:vs(g)=sl:ap=g:pu=sl:ba=ba+sl:rem sistema l'apertura
 14220 goto14530
 14250 ms=10:gj=g:gosub58000
@@ -372,7 +369,7 @@
 14401 ifrd>s(g)-pu+vs(g)thenrd=s(g)-pu+vs(g)
 14402 ifrd<anthen14300
 14405 pu=pu+rd:s(g)=s(g)-(pu-vs(g)):ba=ba+(pu-vs(g)):vs(g)=pu:rem rilancia
-14420 ms=4:gosub58000:print"{rvon}";rd;"e":rem rilancia di rd
+14420 ms=4:gosub58000:c$="di "+mid$(str$(rd),2)+" e":gosub59950
 14530 gosub56000:gosub57000:return
 15000 rem puntata finale
 15010 gosub54000
@@ -388,7 +385,7 @@
 15200 sl=rd:ifsl>pmthensl=pm-int(rnd(0)*2)*an
 15202 ifsl>s(g)thensl=s(g)
 15203 ifsl<anthenms=7:gosub58000:return
-15205 ms=0:gosub58000:print"{rvon}";sl;"e":rem puntata
+15205 ms=0:gosub58000:c$="di "+mid$(str$(sl),2)+" e":gosub59950
 15210 s(g)=s(g)-sl:vs(g)=sl:ap=g:pu=sl:ba=ba+sl:goto15600:rem sistema puntata
 15250 ms=10:gosub58000
 15260 ifvs(g)>3*anthen15280
@@ -401,7 +398,7 @@
 15401 ifrd>s(g)-pu+vs(g)thenrd=s(g)-pu+vs(g)
 15402 ifrd<anthen15300
 15405 pu=pu+rd:s(g)=s(g)-(pu-vs(g)):ba=ba+(pu-vs(g)):vs(g)=pu:rem rilancia
-15420 ms=4:gosub58000:print"{rvon}";rd;"e":rem rilancia di rd
+15420 ms=4:gosub58000:c$="di "+mid$(str$(rd),2)+" e":gosub59950
 15600 gosub56000:gosub57000:return
 16000 rem puntata finale giocatore
 16005 fz=2
@@ -455,12 +452,12 @@
 52052 ca(gi,w,1)=mz(ps,1):ca(gi,w,2)=mz(ps,2)
 52053 gosub51000
 52055 gi=gi+1
-52057 forw2=1to80:next
+52057 forw2=1to40:next
 52060 nextw1,w
 52065 gosub53000
 52067 return
 52070 forw3=1to5
-52075 forw4=1to100:nextw4
+52075 forw4=1to50:nextw4
 52080 gosub10000
 52085 card(w3-1)*8,14,0,0
 52090 card(w3-1)*8,14,ca(ji,w3,1)+(ca(ji,w3,1)=14)*13,ca(ji,w3,2)
@@ -522,12 +519,10 @@
 54645 ifpg=1thenco$="coppia":return
 54650 co$="niente":return
 54660 rem mostra combinazione in area nome
-54665 printbn$;"{rvon}{grn}                    ";
-54670 printbn$;:forw7=1to(21-len(co$))/2:print"{rght}";:next:print"{rvon}{grn}"co$"{home}";
+54665 cx=0:cy=24:cw=20:c$=co$:cc=5:gosub59950
 54675 return
 54690 rem ripristina nome giocatore
-54692 printbn$;"{rvon}{grn}                    ";
-54694 printbn$;:forw7=1to(21-len(n$(4)))/2:print"{rght}";:next:print"{rvon}{grn}"n$(4)"{home}";
+54692 cx=0:cy=24:cw=20:c$=n$(4):cc=5:gosub59950
 54696 return
 54700 rem input numerico controllato
 54702 v$="":w5=0:print"{blu}";
@@ -550,8 +545,7 @@
 54733 forw6=1to400:nextw6:nextw7
 54734 return
 54760 rem mostra eliminato in area nome
-54762 printbn$;"{rvon}{red}                    ";
-54764 printbn$;"{rvon}{red}     eliminato!     ";
+54762 cx=0:cy=24:cw=20:c$="eliminato!":cc=2:gosub59950
 54766 return
 55000 print"{clr}";
 55020 print"{rvon}{grn}            {blk}  {grn}            {blk}  {grn}            ";
@@ -570,40 +564,39 @@
 56020 return
 57000 w=g
 57005 ifw=4then57035
-57010 print"{home}{down}";
-57020 forw1=1tow*14-15+6-len(str$(s(w)))/2:print"{rght}";:next
-57025 print"{rvon}{blu}         {left}{left}{left}{left}{left}{left}{left}{left}{left}"s(w)"e"
+57010 v$=mid$(str$(s(w)),2):ifs(w)<0thenv$=str$(s(w))
+57015 cx=(w-1)*14:cy=1:cw=12:c$=v$+" e":cc=6:gosub59950
 57030 goto57040
-57035 print"{home}{down}{down}{down}{down}{down}{down}{down}{down}{down}{down}{down}{down}{down}{down}{down}{down}{down}{down}{down}{down}{down}{down}{down}{down}{rght}{rght}{rght}{rght}{rght}{rght}{rght}{rght}{rght}{rght}{rght}{rght}{rght}{rght}{rght}{rght}{rght}";
-57037 forw=1to(25-len(str$(s(4))))/2:print"{rght}";:next
-57038 print"{rvon}{blu}           {left}{left}{left}{left}{left}{left}{left}{left}{left}{left}{left}"s(4)"e{home}";
+57035 v$=mid$(str$(s(4)),2):ifs(4)<0thenv$=str$(s(4))
+57037 cx=20:cy=24:cw=20:c$=v$+" e":cc=6:gosub59950
 57040 return
 58000 print"{home}"
 58001 ifms>11andms<19thenpoke198,0
-58003 ifgj<>4thenprint"{brn}":goto58008
+58003 ifgj<>4then58008
 58004 printin$"{blk}";
 58005 ifms=9thenms=21
 58006 ifms=10thenms=13
-58007 goto58010
-58008 print"{home}{down}{down}{down}{down}{down}{down}{down}{down}{down}{down}{down}{left}";:forw=1to(gj-1)*14+1:print"{rght}";:next
-58010 print"{rvon}"ms$(ms);
+58007 print"{rvon}"ms$(ms);:goto58013
+58008 cx=(gj-1)*14:cw=12:cc=9:c$=ms$(ms):cy=11:gosub59950
+58009 ifms=9thenc$="carte":cy=12:gosub59950:goto58020
+58010 c$="":cy=12:gosub59950:goto58020
 58013 ifms<>12then58020
 58015 geta$:ifa$=""then58015
 58016 ifa$<>" "thengosub10500:goto58015
 58017 printcl$;
 58020 return
-58030 ms$(00)="   punto    {down}{left}{left}{left}{left}{left}{left}{left}{left}{left}{left}{left}{left}"
-58035 ms$(01)="   lascio   "
-58040 ms$(02)="    apro    {down}{left}{left}{left}{left}{left}{left}{left}{left}{left}{left}{left}{left} di"
-58050 ms$(03)="   gioco    "
-58060 ms$(04)="  rilancio  {down}{left}{left}{left}{left}{left}{left}{left}{left}{left}{left}{left}{left} di"
-58070 ms$(05)="   passo    "
-58080 ms$(06)="    vedo    "
-58090 ms$(07)="    cip     "
-58100 ms$(08)="  cambio"
-58110 ms$(09)=" mischio le {down}{left}{left}{left}{left}{left}{left}{left}{left}{left}{left}{left}{left}   carte    "
-58120 ms$(10)="            {down}{left}{left}{left}{left}{left}{left}{left}{left}{left}{left}{left}{left}            "
-58122 ms$(11)="  servito   "
+58030 ms$(0)="punto"
+58035 ms$(1)="lascio"
+58040 ms$(2)="apro"
+58050 ms$(3)="gioco"
+58060 ms$(4)="rilancio"
+58070 ms$(5)="passo"
+58080 ms$(6)="vedo"
+58090 ms$(7)="cip"
+58100 ms$(8)="cambio"
+58110 ms$(9)="mischio le"
+58120 ms$(10)=""
+58122 ms$(11)="servito"
 58124 ms$(12)="{rght}{rght}{rght}{rght}{rght}{rght}{rght}{rght}{rght}{rght}{rght}{rght}{rght}{rght}{rght}{rght}{rght}{rght}{rght}{rght}{rght}{rght}{rght}{rght} premi [spazio]"
 58126 ms$(13)=cl$+"{home}"
 58130 ms$(14)="       [a] apro         [p] passo      "
@@ -612,10 +605,10 @@
 58160 ms$(17)="       [p] punto         [c] cip       "
 58170 ms$(18)=" [v] vedo    [r] rilancio    [l] lascio"
 58180 ms$(19)=" carte di: "
-58190 ms$(20)=" ho vinto ! "
+58190 ms$(20)="ho vinto !"
 58195 ms$(21)="        stai mischiando le carte       "
 58197 ms$(22)="       hai vinto !      "
-58200 ms$(23)=" eliminato  "
+58200 ms$(23)="eliminato"
 58210 return
 59000 rem calcolo cambi
 59010 forw=1to5:cb(w,gj)=0:next
@@ -663,10 +656,17 @@
 59840 nextw
 59845 ms=10:gosub58000
 59850 iffc=0thenms=11:goto59870
-59860 ms=8:gosub58000:print"{rvon}"fc:goto59880
+59860 cx=(gj-1)*14:cw=12:cc=9:cy=11:c$="cambio "+mid$(str$(fc),2):gosub59950
+59862 c$="":cy=12:gosub59950:goto59880
 59870 gosub58000
-59880 forw=1to200:next
+59880 forw=1to100:next
 59900 return
+59950 rem stampa centrata
+59952 sa=1024+cy*40+cx
+59954 forw7=satosa+cw-1:pokew7,160:pokew7+54272,cc:next
+59956 ifc$=""then59960
+59958 poke214,cy:poke211,cx+int((cw-len(c$))/2):sys58640:poke646,cc:print"{rvon}"c$;
+59960 print"{home}";:return
 60000 rem cancella
 60005 print"{home}"
 60010 ifkk=4then60050
@@ -677,23 +677,23 @@
 60060 cardx,y,0,0:nextw
 60100 return
 61000 rem cambia le carte
-61010 iffc=0thenforw=1to500:next:goto61900
+61010 iffc=0thenforw=1to250:next:goto61900
 61020 ck=0:forw=1to5
 61030 ifcb(w,gj)=1thenck=ck+1
 61040 nextw
 61050 y=2
 61060 forw=ckto1step-1
 61070 x=(4-ck+w)+14*(gj-1):cardx,y,0,0
-61075 cardx-1,y,15,2:forrr=1to50:next
+61075 cardx-1,y,15,2:forrr=1to25:next
 61080 nextw
-61090 forrr=1to500:next
+61090 forrr=1to250:next
 61100 w1=1
 61120 forw=1to5
 61130 ifcb(w,gj)=0then61180
 61140 ca(gj,w,1)=mz(ps,1):ca(gj,w,2)=mz(ps,2)
 61150 ifgj<>4thenx=(4-ck+w1)+14*(gj-1):cc=1:gosub51000:w1=w1+1:goto61170
 61160 x=(w-1)*8:cc=1:gosub51000:w1=w1+1
-61170 forrr=1to100:nextrr
+61170 forrr=1to50:nextrr
 61180 nextw
 61900 return
 62000 rem vede se 3 lasciano
