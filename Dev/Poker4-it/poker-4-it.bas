@@ -11,6 +11,7 @@
    50 poke53280,0
    60 poke53281,1
    67 dimmz(52,2):dimca(4,5,2):dimva(14,2):dimms$(23)
+   68 eu$=chr$(191)
    70 fora=1to100
    80 cardrnd(0)*34,rnd(0)*17,rnd(0)*14+1,rnd(0)*4
    90 next
@@ -307,7 +308,7 @@
 11210 printcl$:ba=ba+pu+sl:s(4)=s(4)-(pu-vs(4))-sl:vs(4)=pu+sl:pu=vs(4)
 11400 gosub56000:gosub57000:printcl$:return
 12000 sl=an:poke650,128
-12020 ms=16:gj=4:gosub58000:printsl;"{left}  {left}e ";
+12020 ms=16:gj=4:gosub58000:printsl;"{left}  {left}";eu$;" ";
 12030 geta$:ifa$=""then12030
 12035 ifa$<>"+"anda$<>"-"anda$<>chr$(13)thengosub10500:goto12030
 12040 ifa$=chr$(13)then12080
@@ -354,7 +355,7 @@
 14200 sl=rd:ifsl>pmthensl=pm
 14202 ifsl>s(g)thensl=s(g)
 14203 ifsl<anthenms=5:gosub58000:return
-14205 ms=2:gosub58000:c$="di "+mid$(str$(sl),2)+" e":gosub59950
+14205 ms=2:gosub58000:c$="di "+mid$(str$(sl),2)+" "+eu$:gosub59950
 14210 s(g)=s(g)-sl:vs(g)=sl:ap=g:pu=sl:ba=ba+sl:rem sistema l'apertura
 14220 goto14530
 14250 ms=10:gj=g:gosub58000
@@ -369,7 +370,7 @@
 14401 ifrd>s(g)-pu+vs(g)thenrd=s(g)-pu+vs(g)
 14402 ifrd<anthen14300
 14405 pu=pu+rd:s(g)=s(g)-(pu-vs(g)):ba=ba+(pu-vs(g)):vs(g)=pu:rem rilancia
-14420 ms=4:gosub58000:c$="di "+mid$(str$(rd),2)+" e":gosub59950
+14420 ms=4:gosub58000:c$="di "+mid$(str$(rd),2)+" "+eu$:gosub59950
 14530 gosub56000:gosub57000:return
 15000 rem puntata finale
 15010 gosub54000
@@ -385,7 +386,7 @@
 15200 sl=rd:ifsl>pmthensl=pm-int(rnd(0)*2)*an
 15202 ifsl>s(g)thensl=s(g)
 15203 ifsl<anthenms=7:gosub58000:return
-15205 ms=0:gosub58000:c$="di "+mid$(str$(sl),2)+" e":gosub59950
+15205 ms=0:gosub58000:c$="di "+mid$(str$(sl),2)+" "+eu$:gosub59950
 15210 s(g)=s(g)-sl:vs(g)=sl:ap=g:pu=sl:ba=ba+sl:goto15600:rem sistema puntata
 15250 ms=10:gosub58000
 15260 ifvs(g)>3*anthen15280
@@ -398,7 +399,7 @@
 15401 ifrd>s(g)-pu+vs(g)thenrd=s(g)-pu+vs(g)
 15402 ifrd<anthen15300
 15405 pu=pu+rd:s(g)=s(g)-(pu-vs(g)):ba=ba+(pu-vs(g)):vs(g)=pu:rem rilancia
-15420 ms=4:gosub58000:c$="di "+mid$(str$(rd),2)+" e":gosub59950
+15420 ms=4:gosub58000:c$="di "+mid$(str$(rd),2)+" "+eu$:gosub59950
 15600 gosub56000:gosub57000:return
 16000 rem puntata finale giocatore
 16005 fz=2
@@ -559,16 +560,16 @@
 55070 print"{grn}                    {blu}                   {home}";
 55080 poke56295,6:poke2023,32+128
 55090 return
-56000 print"{rvon}{blk}{home}{down}{down}{down}{down}{down}{down}{down}{down}{down}{down}{down}{down}{down}{rght}{rght}{rght}{rght}puntata =      {left}{left}{left}{left}{left}{left}"pu"e"
-56010 print"{rvon}{up}{up}{rght}{rght}{rght}{rght}{rght}{rght}{rght}{rght}{rght}{rght}{rght}{rght}{rght}{rght}{rght}{rght}{rght}{rght}{rght}{rght}{rght}{rght}{rght}piatto =       {left}{left}{left}{left}{left}{left}{left}"ba"e"
+56000 print"{rvon}{blk}{home}{down}{down}{down}{down}{down}{down}{down}{down}{down}{down}{down}{down}{down}{rght}{rght}{rght}{rght}puntata =      {left}{left}{left}{left}{left}{left}"pu;eu$
+56010 print"{rvon}{up}{up}{rght}{rght}{rght}{rght}{rght}{rght}{rght}{rght}{rght}{rght}{rght}{rght}{rght}{rght}{rght}{rght}{rght}{rght}{rght}{rght}{rght}{rght}{rght}piatto =       {left}{left}{left}{left}{left}{left}{left}"ba;eu$
 56020 return
 57000 w=g
 57005 ifw=4then57035
 57010 v$=mid$(str$(s(w)),2):ifs(w)<0thenv$=str$(s(w))
-57015 cx=(w-1)*14:cy=1:cw=12:c$=v$+" e":cc=6:gosub59950
+57015 cx=(w-1)*14:cy=1:cw=12:c$=v$+" "+eu$:cc=6:gosub59950
 57030 goto57040
 57035 v$=mid$(str$(s(4)),2):ifs(4)<0thenv$=str$(s(4))
-57037 cx=20:cy=24:cw=20:c$=v$+" e":cc=6:gosub59950
+57037 cx=20:cy=24:cw=20:c$=v$+" "+eu$:cc=6:gosub59950
 57040 return
 58000 print"{home}"
 58001 ifms>11andms<19thenpoke198,0
