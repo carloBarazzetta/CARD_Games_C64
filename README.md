@@ -76,6 +76,29 @@ You can download the files:
 - [Briscola English (2026) as Vice C64 Emulator Snapshot](./Briscola-en-vice-snapshot.vsf)
 
 ---
+## POKER 4 - NEW ITALIAN AND ENGLISH VERSION - 2026
+
+In 2026, the original Poker 4 game (1987) was revised and translated into English.
+
+The new Italian and English versions include these fixes and improvements compared to the 1987 original:
+
+- fixed player exclusion management: players who run out of money are now correctly excluded from the game
+- fixed end game handling: the game now correctly ends when only one player remains
+- currency symbol changed from Lira (£) to Euro (€) with new graphic symbol added to the CARD character set
+- game instructions revised for better readability
+- BASIC code revised for better readability
+
+![./Poker4-en](./Poker4-en.png)
+
+_In the image, the splash screen of "Poker 4" English version 2026._
+
+You can download the files:
+- [Poker 4 Italian (2026) in D64 format](./Poker4-it.D64)
+- [Poker 4 Italian (2026) as Vice C64 Emulator Snapshot](./Poker4-it-vice-snapshot.vsf)
+- [Poker 4 English (2026) in D64 format](./Poker4-en.D64)
+- [Poker 4 English (2026) as Vice C64 Emulator Snapshot](./Poker4-en-vice-snapshot.vsf)
+
+---
 ## DOCUMENTATION AND MANUALS
 
 In the ["Wiki"](https://github.com/carloBarazzetta/CARD_Games_C64/wiki) section you will find the online manual for using the CARD program.
