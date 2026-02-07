@@ -1,6 +1,6 @@
 
 
-;D:\DEV\CardGamesC64\CARD_Games_C64\Dev\Poker4\poker-4.prg ==1001==
+;D:\DEV\CardGamesC64\CARD_Games_C64\Dev\Poker4-en\poker-4-en.prg ==1001==
    10 rem p o k e r  4
    20 rem by c&l barazzetta
    30 rem basic+comando 'card'
@@ -11,7 +11,6 @@
    50 poke53280,0
    60 poke53281,1
    67 dimmz(52,2):dimca(4,5,2):dimva(14,2):dimms$(23)
-   68 eu$=chr$(191)
    70 fora=1to100
    80 cardrnd(0)*34,rnd(0)*17,rnd(0)*14+1,rnd(0)*4
    90 next
@@ -25,67 +24,68 @@
   145 print"{rght}{rght}{rght}{rght}{rght}{rght}{rght}{rght}{rght}{rvon}     1987..2026      "
   150 print"{rght}{rght}{rght}{rght}{rght}{rght}{rght}{rght}{rght}{rvon}                     "
   160 print"{rght}{rght}{rght}{rght}{rght}{rght}{rght}{rght}{rght}{gry2}{rvon}                     "
-  170 print"{rght}{rght}{rght}{rght}{rght}{rght}{rght}{rght}{rght}{rvon} [i] per istruzioni  "
-  180 print"{rght}{rght}{rght}{rght}{rght}{rght}{rght}{rght}{rght}{rvon} [g] per giocare     "
+  170 print"{rght}{rght}{rght}{rght}{rght}{rght}{rght}{rght}{rght}{rvon}  [i] instructions   "
+  180 print"{rght}{rght}{rght}{rght}{rght}{rght}{rght}{rght}{rght}{rvon}  [p] play poker 4   "
   190 print"{rght}{rght}{rght}{rght}{rght}{rght}{rght}{rght}{rght}{rvon}                     "
   195 poke198,0
   200 geta$:ifa$=""then200
-  205 ifa$="g"then600
+  205 ifa$="p"then600
   210 ifa$<>"i"thengosub10500:goto200
   220 print"{clr}";
-  230 print"{blk}istruzioni:"
-  240 print"-----------"
-  260 print"{grn}con questo programma potrete simulare "
-  270 print"una partita a poker tra 4 giocatori!"
-  280 print"un giocatore siete voi mentre gli altri"
-  290 print"3 sono gestiti dal computer.           "
-  300 print:print"{blk}regole del poker:"
-  310 print"-----------------"
-  320 print"{blu}si sceglie se usare il mazzo da 52"
-  330 print"carte o da 32 (dal 7 all'asso)."
-  340 print"ognuno riceve 5 carte con le quali deve"
-  345 print"formare una combinazione."
-  350 print"le combinazioni possibili sono (in scala";
-  360 print"crescente di valori):            "
-  370 print"{red}coppia, doppia coppia, tris, scala,"
-  380 print"full(*), colore(*), poker, scala reale."
+  230 print"{blk}instructions:"
+  240 print"-------------"
+  260 print"{grn}with this program you can simulate a  "
+  270 print"poker game between 4 players!"
+  280 print"you are one player while the other 3 are";
+  290 print"controlled by the computer."
+  300 print:print"{blk}poker rules:"
+  310 print"------------"
+  320 print"{blu}you choose whether to use a 52-card"
+  330 print"deck or a 32-card deck (7 to ace)."
+  340 print"each player receives 5 cards and must"
+  345 print"form a combination."
+  350 print"possible combinations are (in ascending"
+  360 print"order of value):                 "
+  370 print"{red}pair, two pair, three of a kind,"
+  380 print"straight, full house(*), flush(*),"
+  385 print"four of a kind, straight flush"
   390 print
-  400 print"{grn}(*) con 52 carte: full batte colore."
-  410 print"    con 32 carte: colore batte full."
-  440 print:print"{gry1}{down}     premi un tasto per continuare";
+  400 print"{grn}(*) 52 cards: full house beats flush."
+  410 print"    32 cards: flush beats full house."
+  440 print:print"{gry1}{down}       press any key to continue";
   445 poke198,0
   450 geta$:ifa$=""then450                        "
-  460 print"{clr}{blu}per ottenere una di queste combinazioni"
-  462 print"ogni giocatore ha diritto di cambiare  "
-  464 print"fino ad un massimo di 4 carte.        "
-  466 print"se piu' giocatori ottengono la stessa  "
-  470 print"combinazione vince quella di valore piu'";
-  480 print"alto e se ancora fossero pari quella di"
-  490 print"seme piu' alto. (la scala di valori e':"
-  500 print"cuori {red}{CBM-T}{blu},quadri {red}{CBM-I}{blu},fiori {blk}{CBM-K}{blu},picche {blk}{$a0}{blu})."
-  505 print"es. un 5 di {red}{CBM-T}{blu} vale piu' di un 5 di {red}{CBM-I}{blu}."
-  510 print"a seconda delle carte che si possiedono"
-  520 print"sia prima che dopo averle cambiate, il "
-  530 print"giocatore dovra' valutare quanti soldi "
-  540 print"puntare."
-  550 print"alla fine vince chi ha la combinazione "
-  560 print"di valore piu' alto.                   "
-  570 print:print"{grn}buon divertimento.                   "
-  580 print:print:print"{gry1}       premi un tasto per giocare  "
+  460 print"{clr}{blu}to get one of these combinations each"
+  462 print"player can discard and draw up to 4    "
+  464 print"new cards.                             "
+  466 print"if several players get the same"
+  470 print"combination, the one with the higher"
+  480 print"value wins. if still tied, the higher  "
+  490 print"suit wins. (suit ranking:"
+  500 print"hearts {red}{CBM-T}{blu},diamonds {red}{CBM-I}{blu},clubs {blk}{CBM-K}{blu},spades {blk}{$a0}{blu})."
+  505 print"e.g. a 5 of {red}{CBM-T}{blu} beats a 5 of {red}{CBM-I}{blu}."
+  510 print"depending on the cards you hold, both  "
+  520 print"before and after the draw, you must    "
+  530 print"decide how much money to bet.          "
+  540 print
+  550 print"the player with the highest combination"
+  560 print"at the end wins the pot.               "
+  570 print:print"{grn}enjoy the game!                      "
+  580 print:print:print"{gry1}        press any key to play       "
   585 poke198,0
   590 geta$:ifa$=""then590                         "
   600 print"{clr}"
-  605 print"{blk}     inserimento nomi dei giocatori"
+  605 print"{blk}           enter player names"
   607 print:print
   608 w=4:n$(4)=""
-  609 print"{brn}inserisci il tuo nome >            <{left}{left}{left}{left}{left}{left}{left}{left}{left}{left}{left}{left}{left}";:goto640
+  609 print"{brn}{rght}{rght}enter your name >            <{left}{left}{left}{left}{left}{left}{left}{left}{left}{left}{left}{left}{left}";:goto640
   610 print
-  612 print"{blk}     inserimento nomi dei giocatori"
-  613 print"{blk}          gestiti dal computer"
+  612 print"{blk}           enter player names"
+  613 print"{blk}         controlled by computer"
   615 print
   620 forw=1to3
   625 n$(w)=""
-  630 print"{red}nome del"w"{left}' giocatore >        <{left}{left}{left}{left}{left}{left}{left}{left}{left}";
+  630 print"{red}{rght}{rght}player"w"{left}'s name >        <{left}{left}{left}{left}{left}{left}{left}{left}{left}";
   640 w9=13:ifw<>4thenw9=9
   641 w5=1:print"{blu}";
   645 print"{down}{left} {blk}^{blu}{up}{left}";
@@ -103,33 +103,33 @@
   690 w8=0:forw=1to3:forw1=w+1to4:ifn$(w)=n$(w1)thenw8=1
   692 nextw1,w:ifw8=0then710
   695 forw7=1to4:print"{home}{down}{down}{down}{down}{down}{down}{down}{down}{down}{down}{down}{down}{down}{down}{down}{down}{down}{down}{down}{down}";
-  696 ifw7/2=int(w7/2)thenprint"{blk}    nomi duplicati, ripetere input!":goto698
-  697 print"{red}    nomi duplicati, ripetere input!"
+  696 ifw7/2=int(w7/2)thenprint"{blk}    duplicate names, enter again!  ":goto698
+  697 print"{red}    duplicate names, enter again!  "
   698 forw6=1to400:nextw6:nextw7:goto600
-  710 print:print"{gry1}          va bene cosi' (s/n)?"
+  710 print:print"{gry1}           is this ok? (y/n)"
   720 geta$:ifa$=""then720
-  725 ifa$<>"s"anda$<>"n"thengosub10500:goto720
+  725 ifa$<>"y"anda$<>"n"thengosub10500:goto720
   730 ifa$="n"then600
   735 print"{clr}"
-  736 print"{blk}         configurazione partita"
+  736 print"{blk}          game configuration"
   737 print
-  738 print"    (invio per confermare il valore)"
+  738 print"    (enter to confirm the value)"
   739 bo=1000:an=10:pm=100:nm=52:print:print
-  740 print"{grn}     borsellino:{blk} 1000 e {grn}>     <{left}{left}{left}{left}{left}{left}";:v=bo:gosub54700:bo=v
-  742 print"{grn}         invito:{blk}   10 e {grn}>     <{left}{left}{left}{left}{left}{left}";:v=an:gosub54700:an=v
-  744 print"{grn}puntata massima:{blk}  100 e {grn}>     <{left}{left}{left}{left}{left}{left}";:v=pm:gosub54700:pm=v
+  740 print"{grn}         wallet:{blk}$1000  {grn}>     <{left}{left}{left}{left}{left}{left}";:v=bo:gosub54700:bo=v
+  742 print"{grn}           ante:{blk}  $10  {grn}>     <{left}{left}{left}{left}{left}{left}";:v=an:gosub54700:an=v
+  744 print"{grn}        max bet:{blk} $100  {grn}>     <{left}{left}{left}{left}{left}{left}";:v=pm:gosub54700:pm=v
   745 ifbo<2*pmoran>=pmthengosub54730:goto735
-  746 print:print"{grn}   mazzo: {red}[1]{grn} 52 carte  {red}[2]{grn} 32 carte"
+  746 print:print"{grn}    deck: {red}[1]{grn} 52 cards  {red}[2]{grn} 32 cards"
   748 poke198,0
   750 geta$:ifa$=""then750
   752 ifa$<>"1"anda$<>"2"thengosub10500:goto750
   754 ifa$="2"thennm=32
-  755 print:print"{blk}         mazzo scelto:";nm;"carte"
+  755 print:print"{blk}         chosen deck:";nm;"cards"
   756 ifnm=52thenvf=5:vh=3:goto759
   758 vf=6:vh=2
-  759 poke198,0:print:print"{gry1}          va bene cosi' (s/n)?"
+  759 poke198,0:print:print"{gry1}           is this ok? (y/n)"
   760 geta$:ifa$=""then760
-  761 ifa$<>"s"anda$<>"n"thengosub10500:goto760
+  761 ifa$<>"y"anda$<>"n"thengosub10500:goto760
   762 ifa$="n"then735
   763 print"{clr}"
   770 forw=1to4
@@ -147,7 +147,7 @@
   965 gosub 58030
   980 gosub50000
   999 g1=3
- 1000 rem cuore del programma
+ 1000 rem main loop
  1005 pu=0:ba=0:gosub56000
  1007 forkk=1to4:ifs(kk)>=anthengosub60000
  1009 next
@@ -172,7 +172,7 @@
  1090 gosub50030
  1100 ms=10:gosub58000
  1110 gi=g:gosub52000
- 1150 rem fase di puntata iniziale denaro
+ 1150 rem initial betting round
  1157 fl=0
  1160 forw5=1to4
  1165 ifg>=5theng=1
@@ -185,7 +185,7 @@
  1260 iffl=1then1157
  1270 pu=0:gosub56000
  1272 gosub62000:ifc0=3then1850
- 1275 rem cambio delle carte
+ 1275 rem card draw
  1280 forw5=1to4
  1290 ifg>=5theng=1
  1295 ifvs(g)=-1then1320
@@ -194,7 +194,7 @@
  1320 g=g+1:nextw5
  1330 kk=4:gosub60000:gosub53000
  1335 g=4:gosub54000:gosub54600:gosub54660
- 1500 rem puntata finale di denaro
+ 1500 rem final betting round
  1510 g=ap:ap=0:forw=1to4:ifvs(w)<>-1thenvs(w)=0
  1515 nextw
  1520 fl=0
@@ -208,14 +208,14 @@
  1610 ifvs(1)<=0andvs(2)<=0andvs(3)<=0andvs(4)<=0then1630
  1620 iffl=1then1520
  1625 gosub62000:ifc0=3then1850
- 1630 rem calcola chi ha vinto
+ 1630 rem determine winner
  1640 g=4:gosub54000
  1650 mx=0:pt(0)=0
  1660 forw=1to4
  1662 ifvs(w)=-1then1670
  1665 ifpt(w)>pt(mx)thenmx=w
  1670 nextw
- 1730 rem veduta delle carte
+ 1730 rem showdown
  1740 ifap<>0theng=ap
  1750 forw5=1to4
  1760 ifg>=5theng=1
@@ -239,7 +239,7 @@
  1930 ms=12:gj=4:gosub58000
  2000 s(mx)=s(mx)+ba:ba=0:pu=0:g=mx:gosub56000:gosub57000
  2010 printcl$
- 2020 rem check eliminazioni
+ 2020 rem check eliminations
  2025 forw=1to3:ifs(w)>=anthen2028
  2026 gj=w:ms=23:gosub58000
  2028 nextw
@@ -247,12 +247,12 @@
  2035 w8=0:forw=1to3:ifs(w)>=anthenw8=w8+1
  2037 nextw
  2040 ifs(4)>=anthen2045
- 2041 w1$="     mi dispiace     ":w2$="     hai perso!!     ":goto2060
+ 2041 w1$="     too bad...      ":w2$="     you lost!!      ":goto2060
  2045 ifw8>0then2050
- 2046 w1$="     complimenti     ":w2$="     hai vinto!!     ":goto2060
+ 2046 w1$="  congratulations!!  ":w2$="      you won!!      ":goto2060
  2050 ms=12:gj=4:gosub58000
  2055 goto1000
- 2060 rem fine partita
+ 2060 rem game over
  2061 forw=1to250:next:poke198,0
  2062 ms=12:gj=4:gosub58000
  2065 print"{clr}"
@@ -265,12 +265,12 @@
  2122 print"{rght}{rght}{rght}{rght}{rght}{rght}{rght}{rght}{rght}{gry1}{rvon}                     "
  2125 print"{rght}{rght}{rght}{rght}{rght}{rght}{rght}{rght}{rght}{rvon}"w1$
  2130 print"{rght}{rght}{rght}{rght}{rght}{rght}{rght}{rght}{rght}{gry1}{rvon}"w2$
- 2135 print"{rght}{rght}{rght}{rght}{rght}{rght}{rght}{rght}{rght}{gry1}{rvon}   sei pronto per    "
- 2140 print"{rght}{rght}{rght}{rght}{rght}{rght}{rght}{rght}{rght}{rvon}   un'altra sfida?   "
+ 2135 print"{rght}{rght}{rght}{rght}{rght}{rght}{rght}{rght}{rght}{gry1}{rvon}     ready for a     "
+ 2140 print"{rght}{rght}{rght}{rght}{rght}{rght}{rght}{rght}{rght}{rvon}   new challenge?    "
  2150 print"{rght}{rght}{rght}{rght}{rght}{rght}{rght}{rght}{rght}{rvon}                     "
  2160 print"{rght}{rght}{rght}{rght}{rght}{rght}{rght}{rght}{rght}{gry2}{rvon}                     "
- 2170 print"{rght}{rght}{rght}{rght}{rght}{rght}{rght}{rght}{rght}{rvon} [i] per istruzioni  "
- 2180 print"{rght}{rght}{rght}{rght}{rght}{rght}{rght}{rght}{rght}{rvon} [g] per giocare     "
+ 2170 print"{rght}{rght}{rght}{rght}{rght}{rght}{rght}{rght}{rght}{rvon}  [i] instructions   "
+ 2180 print"{rght}{rght}{rght}{rght}{rght}{rght}{rght}{rght}{rght}{rvon}  [p] play poker 4   "
  2190 print"{rght}{rght}{rght}{rght}{rght}{rght}{rght}{rght}{rght}{rvon}                     "
  2195 goto195
  9999 goto1000
@@ -289,26 +289,26 @@
 10550 poke54283,32
 10560 poke198,0
 10590 return
-11000 rem puntata iniziale giocatore
+11000 rem initial player bet
 11005 fz=1
 11010 ifap<>0then11150
 11020 ms=14:gj=4:gosub58000
 11030 geta$:ifa$=""then11030
-11035 ifa$<>"a"anda$<>"p"thengosub10500:goto11030
+11035 ifa$<>"o"anda$<>"p"thengosub10500:goto11030
 11040 ifa$="p"then11100
 11050 printcl$:gosub12000
 11060 printcl$:pu=sl:s(4)=s(4)-sl:vs(4)=pu:ba=ba+pu:ap=4
 11100 goto11400
 11150 ms=15:gj=4:gosub58000
 11160 geta$:ifa$=""then11160
-11165 ifa$<>"g"anda$<>"r"anda$<>"l"thengosub10500:goto11160
-11170 ifa$="l"thenvs(4)=-1:kk=4:gosub60000:goto11400
-11180 ifa$="g"thens(4)=s(4)-(pu-vs(4)):ba=ba+(pu-vs(4)):vs(4)=pu:goto11400
+11165 ifa$<>"c"anda$<>"r"anda$<>"f"thengosub10500:goto11160
+11170 ifa$="f"thenvs(4)=-1:kk=4:gosub60000:goto11400
+11180 ifa$="c"thens(4)=s(4)-(pu-vs(4)):ba=ba+(pu-vs(4)):vs(4)=pu:goto11400
 11190 printcl$:gosub12000
 11210 printcl$:ba=ba+pu+sl:s(4)=s(4)-(pu-vs(4))-sl:vs(4)=pu+sl:pu=vs(4)
 11400 gosub56000:gosub57000:printcl$:return
 12000 sl=an:poke650,128
-12020 ms=16:gj=4:gosub58000:printsl;"{left}  {left}";eu$;" ";
+12020 ms=16:gj=4:gosub58000:print"$";sl;"{left} ";
 12030 geta$:ifa$=""then12030
 12035 ifa$<>"+"anda$<>"-"anda$<>chr$(13)thengosub10500:goto12030
 12040 ifa$=chr$(13)then12080
@@ -341,7 +341,7 @@
 13090 nextw
 13095 forrr=1to500:next
 13100 return
-14000 rem scelta se giocare e quanto puntare
+14000 rem choose play and bet amount
 14001 gosub54000
 14002 gj=g:gosub59000
 14010 rd=int(rnd(0)*5)*an-2*an+an*(ap=0)
@@ -351,28 +351,28 @@
 14026 ifw8=2thenrd=rd-4*an*(rnd(0)<.8)
 14030 w9=(w9+(w9=7)*4)*2*an:rd=w9+rd
 14040 ifap<>0then14250
-14100 ifrd<=0thenms=5:gosub58000:return:rem passa
+14100 ifrd<=0thenms=5:gosub58000:return:rem pass
 14200 sl=rd:ifsl>pmthensl=pm
 14202 ifsl>s(g)thensl=s(g)
 14203 ifsl<anthenms=5:gosub58000:return
-14205 ms=2:gosub58000:c$="di "+mid$(str$(sl),2)+" "+eu$:gosub59950
-14210 s(g)=s(g)-sl:vs(g)=sl:ap=g:pu=sl:ba=ba+sl:rem sistema l'apertura
+14205 ms=2:gosub58000:c$="$"+mid$(str$(sl),2):gosub59950
+14210 s(g)=s(g)-sl:vs(g)=sl:ap=g:pu=sl:ba=ba+sl:rem set opening
 14220 goto14530
 14250 ms=10:gj=g:gosub58000
 14252 ifvs(g)>anthen14260
-14255 ifpu-rd>3*anthenms=1:gosub58000:kk=g:gosub60000:vs(g)=-1:return:rem lascia
+14255 ifpu-rd>3*anthenms=1:gosub58000:kk=g:gosub60000:vs(g)=-1:return:rem fold
 14260 rd=rd-pu
 14270 ifrd>=anthen14400
-14300 s(g)=s(g)-(pu-vs(g)):ba=ba+(pu-vs(g)):vs(g)=pu:rem gioca
+14300 s(g)=s(g)-(pu-vs(g)):ba=ba+(pu-vs(g)):vs(g)=pu:rem call
 14320 ms=3:gj=g:gosub58000
 14330 goto14530
 14400 ifrd>pmthenrd=pm
 14401 ifrd>s(g)-pu+vs(g)thenrd=s(g)-pu+vs(g)
 14402 ifrd<anthen14300
-14405 pu=pu+rd:s(g)=s(g)-(pu-vs(g)):ba=ba+(pu-vs(g)):vs(g)=pu:rem rilancia
-14420 ms=4:gosub58000:c$="di "+mid$(str$(rd),2)+" "+eu$:gosub59950
+14405 pu=pu+rd:s(g)=s(g)-(pu-vs(g)):ba=ba+(pu-vs(g)):vs(g)=pu:rem raise
+14420 ms=4:gosub58000:c$="$"+mid$(str$(rd),2):gosub59950
 14530 gosub56000:gosub57000:return
-15000 rem puntata finale
+15000 rem final bet
 15010 gosub54000
 15020 gj=g:ms=10:gosub58000
 15030 rd=int(rnd(0)*5)*an-2*an
@@ -382,40 +382,40 @@
 15080 next
 15090 ifw8=2andap<>0thenrd=rd-4*an*(w9<>0)
 15100 ifap<>0then15250
-15110 ifrd<=0thenms=7:gosub58000:return:rem cip
+15110 ifrd<=0thenms=7:gosub58000:return:rem check
 15200 sl=rd:ifsl>pmthensl=pm-int(rnd(0)*2)*an
 15202 ifsl>s(g)thensl=s(g)
 15203 ifsl<anthenms=7:gosub58000:return
-15205 ms=0:gosub58000:c$="di "+mid$(str$(sl),2)+" "+eu$:gosub59950
-15210 s(g)=s(g)-sl:vs(g)=sl:ap=g:pu=sl:ba=ba+sl:goto15600:rem sistema puntata
+15205 ms=0:gosub58000:c$="$"+mid$(str$(sl),2):gosub59950
+15210 s(g)=s(g)-sl:vs(g)=sl:ap=g:pu=sl:ba=ba+sl:goto15600:rem set bet
 15250 ms=10:gosub58000
 15260 ifvs(g)>3*anthen15280
-15270 ifpu-rd>3*anthenms=1:gosub58000:kk=g:gosub60000:vs(g)=-1:return:rem lascio
+15270 ifpu-rd>3*anthenms=1:gosub58000:kk=g:gosub60000:vs(g)=-1:return:rem fold
 15280 rd=rd-pu:ifw8=2andap<>0thenrd=rd+4*an*(w9<>0)
 15290 ifrd>anthen15400
-15300 ms=6:gosub58000:s(g)=s(g)-(pu-vs(g)):ba=ba+(pu-vs(g)):vs(g)=pu:rem vedo
+15300 ms=6:gosub58000:s(g)=s(g)-(pu-vs(g)):ba=ba+(pu-vs(g)):vs(g)=pu:rem see
 15310 goto15600
 15400 ifrd>pmthenrd=pm-(int(rnd(0)*2)*an)
 15401 ifrd>s(g)-pu+vs(g)thenrd=s(g)-pu+vs(g)
 15402 ifrd<anthen15300
-15405 pu=pu+rd:s(g)=s(g)-(pu-vs(g)):ba=ba+(pu-vs(g)):vs(g)=pu:rem rilancia
-15420 ms=4:gosub58000:c$="di "+mid$(str$(rd),2)+" "+eu$:gosub59950
+15405 pu=pu+rd:s(g)=s(g)-(pu-vs(g)):ba=ba+(pu-vs(g)):vs(g)=pu:rem raise
+15420 ms=4:gosub58000:c$="$"+mid$(str$(rd),2):gosub59950
 15600 gosub56000:gosub57000:return
-16000 rem puntata finale giocatore
+16000 rem final player bet
 16005 fz=2
 16010 ifap<>0then16150
 16020 ms=17:gj=4:gosub58000
 16030 geta$:ifa$=""then16030
-16035 ifa$<>"p"anda$<>"c"thengosub10500:goto16030
-16040 ifa$="c"then16100
+16035 ifa$<>"b"anda$<>"k"thengosub10500:goto16030
+16040 ifa$="k"then16100
 16050 printcl$:gosub12000
 16060 printcl$:pu=sl:s(4)=s(4)-sl:vs(4)=pu:ba=ba+pu:ap=4
 16100 goto16400
 16150 ms=18:gj=4:gosub58000
 16160 geta$:ifa$=""then16160
-16165 ifa$<>"v"anda$<>"r"anda$<>"l"thengosub10500:goto16160
-16170 ifa$="l"thenvs(4)=-1:kk=4:gosub60000:goto16400
-16180 ifa$="v"thens(4)=s(4)-(pu-vs(4)):ba=ba+(pu-vs(4)):vs(4)=pu:goto16400
+16165 ifa$<>"s"anda$<>"r"anda$<>"f"thengosub10500:goto16160
+16170 ifa$="f"thenvs(4)=-1:kk=4:gosub60000:goto16400
+16180 ifa$="s"thens(4)=s(4)-(pu-vs(4)):ba=ba+(pu-vs(4)):vs(4)=pu:goto16400
 16185 ifpu>=fz*pm*2then16150
 16190 printcl$:gosub12000
 16210 printcl$:ba=ba+pu+sl:s(4)=s(4)-(pu-vs(4))-sl:vs(4)=pu+sl:pu=vs(4)
@@ -508,24 +508,24 @@
 54260 pt(w)=0.01*p3+0.001*(p4+1)
 54500 :
 54510 return
-54600 rem nome combinazione
+54600 rem combination name
 54605 pg=int(pt(g))
-54610 ifpg>=8thenco$="scala reale":return
-54615 ifpg=7thenco$="poker":return
-54620 ifpg=vfthenco$="colore":return
-54625 ifpg=11-vfthenco$="full":return
-54630 ifpg=4thenco$="scala":return
-54635 ifpg=3thenco$="tris":return
-54640 ifpg=2thenco$="doppia coppia":return
-54645 ifpg=1thenco$="coppia":return
-54650 co$="niente":return
-54660 rem mostra combinazione in area nome
+54610 ifpg>=8thenco$="straight flush":return
+54615 ifpg=7thenco$="four of a kind":return
+54620 ifpg=vfthenco$="flush":return
+54625 ifpg=11-vfthenco$="full house":return
+54630 ifpg=4thenco$="straight":return
+54635 ifpg=3thenco$="3 of a kind":return
+54640 ifpg=2thenco$="two pair":return
+54645 ifpg=1thenco$="pair":return
+54650 co$="nothing":return
+54660 rem show combination in name area
 54665 cx=0:cy=24:cw=20:c$=co$:cc=5:gosub59950
 54675 return
-54690 rem ripristina nome giocatore
+54690 rem restore player name
 54692 cx=0:cy=24:cw=20:c$=n$(4):cc=5:gosub59950
 54696 return
-54700 rem input numerico controllato
+54700 rem controlled numeric input
 54702 v$="":w5=0:print"{blu}";
 54704 print"{down}{left} {blk}^{blu}{up}{left}";
 54706 geta$:ifa$=""then54706
@@ -541,12 +541,12 @@
 54720 ifval(v$)>0thenv=val(v$)
 54722 print"{blk}":return
 54730 forw7=1to4
-54731 ifw7/2=int(w7/2)thenprint"{blk}    importi non coerenti, ripetere!{up}":goto54733
-54732 print"{red}    importi non coerenti, ripetere!{up}"
+54731 ifw7/2=int(w7/2)thenprint"{blk}   amounts not consistent, retry!  {up}":goto54733
+54732 print"{red}   amounts not consistent, retry!  {up}"
 54733 forw6=1to400:nextw6:nextw7
 54734 return
-54760 rem mostra eliminato in area nome
-54762 cx=0:cy=24:cw=20:c$="eliminato!":cc=2:gosub59950
+54760 rem show busted in name area
+54762 cx=0:cy=24:cw=20:c$="busted!":cc=2:gosub59950
 54766 return
 55000 print"{clr}";
 55020 print"{rvon}{grn}            {blk}  {grn}            {blk}  {grn}            ";
@@ -560,16 +560,16 @@
 55070 print"{grn}                    {blu}                   {home}";
 55080 poke56295,6:poke2023,32+128
 55090 return
-56000 print"{rvon}{blk}{home}{down}{down}{down}{down}{down}{down}{down}{down}{down}{down}{down}{down}{down}{rght}{rght}{rght}{rght}puntata =      {left}{left}{left}{left}{left}{left}"pu;eu$
-56010 print"{rvon}{up}{up}{rght}{rght}{rght}{rght}{rght}{rght}{rght}{rght}{rght}{rght}{rght}{rght}{rght}{rght}{rght}{rght}{rght}{rght}{rght}{rght}{rght}{rght}{rght}piatto =       {left}{left}{left}{left}{left}{left}{left}"ba;eu$
+56000 print"{rvon}{blk}{home}{down}{down}{down}{down}{down}{down}{down}{down}{down}{down}{down}{down}{down}{rght}{rght}{rght}{rght}bet =          {left}{left}{left}{left}{left}{left}"pu"$"
+56010 print"{rvon}{up}{up}{rght}{rght}{rght}{rght}{rght}{rght}{rght}{rght}{rght}{rght}{rght}{rght}{rght}{rght}{rght}{rght}{rght}{rght}{rght}{rght}{rght}{rght}{rght}pot =          {left}{left}{left}{left}{left}{left}{left}"ba"$"
 56020 return
 57000 w=g
 57005 ifw=4then57035
 57010 v$=mid$(str$(s(w)),2):ifs(w)<0thenv$=str$(s(w))
-57015 cx=(w-1)*14:cy=1:cw=12:c$=v$+" "+eu$:cc=6:gosub59950
+57015 cx=(w-1)*14:cy=1:cw=12:c$="$"+v$:cc=6:gosub59950
 57030 goto57040
 57035 v$=mid$(str$(s(4)),2):ifs(4)<0thenv$=str$(s(4))
-57037 cx=20:cy=24:cw=20:c$=v$+" "+eu$:cc=6:gosub59950
+57037 cx=20:cy=24:cw=20:c$="$"+v$:cc=6:gosub59950
 57040 return
 58000 print"{home}"
 58001 ifms>11andms<19thenpoke198,0
@@ -579,39 +579,39 @@
 58006 ifms=10thenms=13
 58007 print"{rvon}"ms$(ms);:goto58013
 58008 cx=(gj-1)*14:cw=12:cc=9:c$=ms$(ms):cy=11:gosub59950
-58009 ifms=9thenc$="carte":cy=12:gosub59950:goto58020
+58009 ifms=9thenc$="cards":cy=12:gosub59950:goto58020
 58010 c$="":cy=12:gosub59950:goto58020
 58013 ifms<>12then58020
 58015 geta$:ifa$=""then58015
 58016 ifa$<>" "thengosub10500:goto58015
 58017 printcl$;
 58020 return
-58030 ms$(0)="punto"
-58035 ms$(1)="lascio"
-58040 ms$(2)="apro"
-58050 ms$(3)="gioco"
-58060 ms$(4)="rilancio"
-58070 ms$(5)="passo"
-58080 ms$(6)="vedo"
-58090 ms$(7)="cip"
-58100 ms$(8)="cambio"
-58110 ms$(9)="mischio le"
+58030 ms$(0)="bet"
+58035 ms$(1)="fold"
+58040 ms$(2)="open"
+58050 ms$(3)="call"
+58060 ms$(4)="raise"
+58070 ms$(5)="pass"
+58080 ms$(6)="see"
+58090 ms$(7)="check"
+58100 ms$(8)="draw"
+58110 ms$(9)="shuffling"
 58120 ms$(10)=""
-58122 ms$(11)="servito"
-58124 ms$(12)="{rght}{rght}{rght}{rght}{rght}{rght}{rght}{rght}{rght}{rght}{rght}{rght}{rght}{rght}{rght}{rght}{rght}{rght}{rght}{rght}{rght}{rght}{rght}{rght} premi [spazio]"
+58122 ms$(11)="stand pat"
+58124 ms$(12)="{rght}{rght}{rght}{rght}{rght}{rght}{rght}{rght}{rght}{rght}{rght}{rght}{rght}{rght}{rght}{rght}{rght}{rght}{rght}{rght}{rght}{rght}{rght}{rght}{rght} press [space]"
 58126 ms$(13)=cl$+"{home}"
-58130 ms$(14)="       [a] apro         [p] passo      "
-58140 ms$(15)=" [g] gioco   [r] rilancio    [l] lascio"
-58150 ms$(16)=" quanti soldi? (usa + e -)"
-58160 ms$(17)="       [p] punto         [c] cip       "
-58170 ms$(18)=" [v] vedo    [r] rilancio    [l] lascio"
-58180 ms$(19)=" carte di: "
-58190 ms$(20)="ho vinto!"
-58195 ms$(21)="        stai mischiando le carte       "
-58197 ms$(22)="       hai vinto!       "
-58200 ms$(23)="eliminato!"
+58130 ms$(14)="      [o] open          [p] pass       "
+58140 ms$(15)="    [c] call    [r] raise    [f] fold  "
+58150 ms$(16)=" how much? (use + and -)"
+58160 ms$(17)="       [b] bet           [k] check     "
+58170 ms$(18)="    [s] see     [r] raise    [f] fold  "
+58180 ms$(19)=" cards of: "
+58190 ms$(20)="i won!"
+58195 ms$(21)="         you are shuffling cards        "
+58197 ms$(22)="        you won !       "
+58200 ms$(23)="busted!"
 58210 return
-59000 rem calcolo cambi
+59000 rem calculate draws
 59010 forw=1to5:cb(w,gj)=0:next
 59020 ifpt(gj)>4then59700
 59030 ifpt(gj)<1then59200
@@ -622,7 +622,7 @@
 59090 next
 59095 ifint(pt(gj))=1andca(gj,5,1)=14andca(gj,4,1)<>14thencb(5,gj)=int(rnd(0)*2)
 59100 goto59800
-59200 rem controlla 4/5 colori
+59200 rem check 4/5 flush
 59202 forw1=0to3
 59205 fc=0
 59210 forw=1to5
@@ -630,7 +630,7 @@
 59230 nextw
 59240 iffc=1thencb(cf,gj)=1:pt(gj)=2:goto59800
 59250 nextw1
-59300 rem controlla 4/5 scala
+59300 rem check 4/5 straight
 59310 fs=ca(gj,5,1):sf=0
 59320 forw=4to2step-1
 59330 fs=fs-1:ifca(gj,w,1)=fsthen59370
@@ -650,25 +650,25 @@
 59710 ifca(gj,1,1)<>ca(gj,3,1)thencb(1,gj)=1:goto559800
 59720 cb(5,gj)=1
 59800 return
-59805 rem messaggio delle carte da cambiare
+59805 rem card draw message
 59810 fc=0
 59820 forw=1to5
 59830 ifcb(w,gj)=1thenfc=fc+1
 59840 nextw
 59845 ms=10:gosub58000
 59850 iffc=0thenms=11:goto59870
-59860 cx=(gj-1)*14:cw=12:cc=9:cy=11:c$="cambio "+mid$(str$(fc),2):gosub59950
+59860 cx=(gj-1)*14:cw=12:cc=9:cy=11:c$="draw "+mid$(str$(fc),2):gosub59950
 59862 c$="":cy=12:gosub59950:goto59880
 59870 gosub58000
 59880 forw=1to100:next
 59900 return
-59950 rem stampa centrata
+59950 rem centered print
 59952 sa=1024+cy*40+cx
 59954 forw7=satosa+cw-1:pokew7,160:pokew7+54272,cc:next
 59956 ifc$=""then59960
 59958 poke214,cy:poke211,cx+int((cw-len(c$))/2):sys58640:poke646,cc:print"{rvon}"c$;
 59960 print"{home}";:return
-60000 rem cancella
+60000 rem clear cards
 60005 print"{home}"
 60010 ifkk=4then60050
 60020 forw=0to1:y=2:x=(kk-1)*14+w*5
@@ -677,7 +677,7 @@
 60050 forw=1to5:x=(w-1)*8:y=14
 60060 cardx,y,0,0:nextw
 60100 return
-61000 rem cambia le carte
+61000 rem draw cards
 61010 iffc=0thenforw=1to250:next:goto61900
 61020 ck=0:forw=1to5
 61030 ifcb(w,gj)=1thenck=ck+1
@@ -697,14 +697,14 @@
 61170 forrr=1to50:nextrr
 61180 nextw
 61900 return
-62000 rem vede se 3 lasciano
+62000 rem check if 3 fold
 62005 c0=0
 62010 forw=1to4
 62020 ifvs(w)=-1thenc0=c0+1:goto62040
 62030 mx=w
 62040 nextw
 62050 return
-63000 rem disegno poker 4
+63000 rem poker 4 drawing
 63005 w$=""
 63010 forw=0to6
 63020 w$=w$+chr$(peek(51193+w))
