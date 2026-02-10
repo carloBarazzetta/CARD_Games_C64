@@ -1,0 +1,337 @@
+# =============================================================================
+# CARD ROUTINES - da65 info file
+# Commodore 64 BASIC extension for card game rendering
+# by Lorenzo Barazzetta (1985), clipping extension (2026)
+#
+# Load range: $C000-$C404 (1029 bytes)
+#   $C000-$C03F: Runtime workspace (card buffer, not in file)
+#   $C040-$C404: Code + data (965 bytes, in .prg file)
+#
+# Entry points (K1 = 49152 = $C000):
+#   SYS K1+138 ($C08A) - Enable CARD command + custom charset
+#   SYS K1+150 ($C096) - Disable shift keys, enable charset only
+#   SYS K1+169 ($C0A9) - Disable CARD command, restore default charset
+#   SYS K1+232 ($C0E8) - Alternative SYS-based card drawing
+#   SYS K1+269 ($C10D) - Redraw last card (reuse stored parameters)
+#
+# Clipping support:
+#   X range: -6 to 39 (stored as X+6, 0..45 unsigned)
+#   Y range: -8 to 24 (stored as Y+8, 0..32 unsigned)
+#   Cards partially off-screen are clipped automatically.
+# =============================================================================
+
+GLOBAL {
+    STARTADDR   $C040;
+    INPUTOFFS   2;              # skip 2-byte .prg load address header
+    CPU         "6502";
+    COMMENTS    4;
+};
+
+# =============================================================================
+# EXTERNAL C64 ROM/RAM LABELS
+# =============================================================================
+
+# --- Zero Page ---
+LABEL { ADDR $007A; NAME "TXTPTR";      COMMENT "BASIC text pointer (lo byte)"; };
+LABEL { ADDR $007B; NAME "TXTPTR_HI";   COMMENT "BASIC text pointer (hi byte)"; };
+LABEL { ADDR $0066; NAME "FACSGN";      COMMENT "FAC sign byte (bit 7 = negative)"; };
+
+# --- BASIC Zero Page Routines ---
+LABEL { ADDR $0073; NAME "CHRGET";      COMMENT "BASIC: get next char from text"; };
+
+# --- System Variables ---
+LABEL { ADDR $0291; NAME "SHFLAG";      COMMENT "Shift key disable flag"; };
+LABEL { ADDR $0308; NAME "IGONE_LO";    COMMENT "BASIC IGONE vector (lo)"; };
+LABEL { ADDR $0309; NAME "IGONE_HI";    COMMENT "BASIC IGONE vector (hi)"; };
+
+# --- BASIC ROM Routines ---
+LABEL { ADDR $A7AE; NAME "NEWSTT";      COMMENT "BASIC: execute next statement"; };
+LABEL { ADDR $A7E4; NAME "GONE";        COMMENT "BASIC: execute current token"; };
+LABEL { ADDR $AD9E; NAME "FRMEVL";      COMMENT "BASIC: evaluate expression -> FAC"; };
+LABEL { ADDR $AF08; NAME "SYNERR";      COMMENT "BASIC: ?SYNTAX ERROR"; };
+LABEL { ADDR $B248; NAME "IQERR";       COMMENT "BASIC: ?ILLEGAL QUANTITY ERROR"; };
+LABEL { ADDR $B79B; NAME "FRMNUM";      COMMENT "BASIC: evaluate numeric expression"; };
+LABEL { ADDR $B7F7; NAME "GETADR";      COMMENT "BASIC: FAC -> unsigned int in Y/A"; };
+
+# --- I/O Registers ---
+LABEL { ADDR $D018; NAME "VMCSB";       COMMENT "VIC-II memory control register"; };
+
+# =============================================================================
+# CARD BUFFER - Runtime workspace $C000-$C03F (not in file)
+# 63-byte buffer ($C000-$C03E) holds characters for a 7x9 card grid.
+# Buffer is stored "upside down": $C038-$C03E = screen row 0 (top),
+# $C000-$C006 = screen row 8 (bottom). Each row is 7 bytes.
+# =============================================================================
+
+LABEL { ADDR $C000; NAME "CARDBUF";     COMMENT "Card character buffer (63 bytes, 9 rows x 7 cols)"; };
+LABEL { ADDR $C001; NAME "CARDBUF_01"; };
+LABEL { ADDR $C002; NAME "CARDBUF_02"; };
+LABEL { ADDR $C003; NAME "CARDBUF_03"; };
+LABEL { ADDR $C004; NAME "CARDBUF_04"; };
+LABEL { ADDR $C006; NAME "CARDBUF_06"; };
+LABEL { ADDR $C007; NAME "CARDBUF_07"; };
+LABEL { ADDR $C008; NAME "CARDBUF_08"; };
+LABEL { ADDR $C009; NAME "CARDBUF_09"; };
+LABEL { ADDR $C00A; NAME "CARDBUF_0A"; };
+LABEL { ADDR $C00B; NAME "CARDBUF_0B"; };
+LABEL { ADDR $C00C; NAME "CARDBUF_0C"; };
+LABEL { ADDR $C00D; NAME "CARDBUF_0D"; };
+LABEL { ADDR $C00F; NAME "CARDBUF_0F"; };
+LABEL { ADDR $C013; NAME "CARDBUF_13"; };
+LABEL { ADDR $C01E; NAME "CARDBUF_1E"; };
+LABEL { ADDR $C01F; NAME "CARDBUF_1F"; };
+LABEL { ADDR $C020; NAME "CARDBUF_20"; };
+LABEL { ADDR $C02B; NAME "CARDBUF_2B"; };
+LABEL { ADDR $C02F; NAME "CARDBUF_2F"; };
+LABEL { ADDR $C032; NAME "CARDBUF_32"; };
+LABEL { ADDR $C036; NAME "CARDBUF_36"; };
+LABEL { ADDR $C038; NAME "CARDBUF_TOP_ROW"; COMMENT "Top row of card (first drawn)"; };
+LABEL { ADDR $C039; NAME "CARDBUF_39"; };
+LABEL { ADDR $C03E; NAME "CARDBUF_END"; COMMENT "Last byte of buffer"; };
+LABEL { ADDR $C03F; NAME "TEMP";        COMMENT "Temporary variable"; };
+
+# =============================================================================
+# DATA TABLES $C040-$C089
+# =============================================================================
+
+# --- Pip position lookup table (56 bytes) ---
+# Used by pip placement routine: indexes into buffer for suit symbol positions.
+# Each card type (Ace through 10) references different positions in this table
+# to determine where pips appear on the card face.
+RANGE { START $C040; END $C077; TYPE ByteTable; NAME "PIP_TABLE";
+        COMMENT "Pip position lookup table (56 bytes)"; };
+LABEL { ADDR $C077; NAME "PIP_TABLE_END"; COMMENT "Null terminator / base for token lookup"; };
+
+# --- CARD command token (4 bytes) ---
+# Token string "CAR" + $C4 ('D' with bit 7 set to mark end).
+# Standard CBM wedge technique: last char has hi-bit set.
+RANGE { START $C078; END $C07B; TYPE ByteTable; NAME "CARD_TOKEN";
+        COMMENT "CARD token: C=$43 A=$41 R=$52 D=$C4"; };
+
+# --- Padding / unused (4 bytes) ---
+RANGE { START $C07C; END $C07F; TYPE ByteTable; NAME "TOKEN_PAD";
+        COMMENT "Unused padding ($A0 = PETSCII space)"; };
+
+# --- Parameter validation limits (4 bytes) ---
+# Maximum values (exclusive) for the 4 CARD parameters (with offset encoding):
+#   $2E=46 (X+6: -6..39 -> 0..45), $21=33 (Y+8: -8..24 -> 0..32),
+#   $10=16 (type: 0-15), $04=4 (suit: 0-3)
+RANGE { START $C080; END $C083; TYPE ByteTable; NAME "PARAM_MAX";
+        COMMENT "Param limits: X+6<46, Y+8<33, type<16, suit<4"; };
+
+# --- Parameter storage (4 bytes) ---
+# Current card parameters, written by EvalParams, read by DrawCard.
+# X and Y are stored with offset: PARAM_X = X+6, PARAM_Y = Y+8
+RANGE { START $C084; END $C084; TYPE ByteTable; NAME "PARAM_X";
+        COMMENT "Card column + 6 (offset-encoded, 0..45)"; };
+RANGE { START $C085; END $C085; TYPE ByteTable; NAME "PARAM_Y";
+        COMMENT "Card row + 8 (offset-encoded, 0..32)"; };
+RANGE { START $C086; END $C086; TYPE ByteTable; NAME "PARAM_TYPE";
+        COMMENT "Card type (0=clear,1-10=A-10,11-13=J/Q/K,14=Joker,15=back)"; };
+RANGE { START $C087; END $C087; TYPE ByteTable; NAME "PARAM_SUIT";
+        COMMENT "Suit (0=spades,1=clubs,2=diamonds,3=hearts)"; };
+
+# --- Card back color table (2 bytes) ---
+# Colors for card back pattern, indexed by suit>>1:
+#   $06=blue (spades/clubs), $02=red (diamonds/hearts)
+RANGE { START $C088; END $C089; TYPE ByteTable; NAME "BACK_COLORS";
+        COMMENT "Card back colors: $06=blue, $02=red"; };
+
+# =============================================================================
+# ORIGINAL CODE SECTION $C08A-$C27C
+# =============================================================================
+
+RANGE { START $C08A; END $C27C; TYPE Code; };
+
+# --- SYS K1+138: Enable CARD command ---
+# Sets IGONE vector to ParseToken ($C0C3).
+# The handler address is cleverly embedded in the operand bytes of the
+# LDA $C0C3 instruction at $C0C0 (which itself is never executed).
+# Then falls through to EnableCharset.
+LABEL { ADDR $C08A; NAME "EnableCard";
+        COMMENT "SYS 49290: Enable CARD command + custom charset"; };
+
+# --- SYS K1+150: Enable custom charset ---
+# Disables Shift+C= key (prevents charset corruption).
+# Configures VIC-II to use custom character set at $0800.
+LABEL { ADDR $C096; NAME "EnableCharset";
+        COMMENT "SYS 49302: Disable shift keys, select charset at $0800"; };
+
+# --- SYS K1+169: Disable CARD command ---
+# Restores original IGONE vector ($A7E4 = BASIC GONE).
+# The original address is embedded in the JMP $A7E4 operand at $C0D0.
+# Restores default ROM character set.
+LABEL { ADDR $C0A9; NAME "DisableCard";
+        COMMENT "SYS 49321: Disable CARD command, restore ROM charset"; };
+
+# --- Address holder (never executed) ---
+# This LDA $C0C3 instruction is never reached (preceded by RTS at $C0BF).
+# It exists solely so addresses $C0C1/$C0C2 contain the bytes $C3/$C0,
+# which EnableCard reads as the ParseToken handler address.
+# Classic 6502 trick: reuse instruction operand bytes as stored data.
+LABEL { ADDR $C0C0; NAME "AddrHolder";
+        COMMENT "NOT CODE - holds ParseToken addr $C0C3 in operand bytes"; };
+
+# --- IGONE Wedge: Parse CARD token ---
+# Called via IGONE vector when BASIC encounters an unrecognized token.
+# Compares BASIC text against "CARD" token at $C078.
+# If no match, falls through to original BASIC GONE ($A7E4).
+# The original GONE address ($A7E4) is embedded in the JMP operand
+# at $C0D0/$C0D1/$C0D2 - another operand-as-data trick.
+LABEL { ADDR $C0C3; NAME "ParseToken";
+        COMMENT "IGONE wedge: match 'CARD' token in BASIC text"; };
+LABEL { ADDR $C0C5; NAME "ParseLoop";
+        COMMENT "Compare next token character"; };
+LABEL { ADDR $C0D3; NAME "CharMatch";
+        COMMENT "Character matched, check if last (bit 7)"; };
+LABEL { ADDR $C0D6; NAME "TokenMatch";
+        COMMENT "Full token matched - advance TXTPTR and execute"; };
+
+# --- Execute CARD after token match ---
+LABEL { ADDR $C0E2; NAME "ExecCard";
+        COMMENT "Token matched: evaluate params then execute"; };
+
+# --- SYS K1+232: Alternative SYS-based card draw ---
+# Entry point for: SYS 49384,X,Y,TYPE,SUIT
+# Parses comma-separated parameters after SYS address.
+# Used when CARD wedge can't be used (e.g. with BASIC extensions).
+LABEL { ADDR $C0E8; NAME "SysCard";
+        COMMENT "SYS 49384: SYS-based card draw (no wedge needed)"; };
+LABEL { ADDR $C0EC; NAME "SysParamLoop";
+        COMMENT "Parse next comma-separated parameter"; };
+
+# --- Evaluate card parameters ---
+# Shared by both ParseToken and SysCard paths.
+# Evaluates 4 numeric expressions, validates ranges, stores in PARAM area.
+# Now calls NewEval instead of FRMNUM to handle signed X/Y with offset.
+LABEL { ADDR $C0F6; NAME "EvalParams";
+        COMMENT "Evaluate and validate 4 card parameters"; };
+LABEL { ADDR $C0F7; NAME "EvalOneParam";
+        COMMENT "Evaluate one param via NewEval (signed X/Y with offset)"; };
+LABEL { ADDR $C105; NAME "StoreParam";
+        COMMENT "Store validated param at PARAMS,Y"; };
+
+# --- SYS K1+269: Build card in buffer and draw ---
+# Main card rendering routine. Builds a 7x9 character map in CARDBUF,
+# then copies it to screen RAM + color RAM.
+#
+# Card types:
+#   0     = clear card area (fill with spaces)
+#   1-10  = Ace through 10 (with pip patterns)
+#   11-13 = Jack, Queen, King (figure cards)
+#   14    = Joker
+#   15    = Card back (pattern fill)
+LABEL { ADDR $C10D; NAME "DrawCard";
+        COMMENT "SYS 49421: Build card in buffer and blit to screen"; };
+
+# --- Fill buffer ---
+LABEL { ADDR $C118; NAME "SetFillChar"; };
+LABEL { ADDR $C11A; NAME "FillBuf";
+        COMMENT "Fill 63-byte buffer with A register"; };
+
+# --- Draw card frame (borders) ---
+LABEL { ADDR $C123; NAME "DrawFrame";
+        COMMENT "Draw card border: corners + edges"; };
+LABEL { ADDR $C139; NAME "FillBorders";
+        COMMENT "Fill top/bottom border chars ($55)"; };
+LABEL { ADDR $C145; NAME "FillSides";
+        COMMENT "Fill left/right side borders ($7F)"; };
+
+# --- Card face rendering ---
+LABEL { ADDR $C155; NAME "CheckBack";
+        COMMENT "Card back (type 15)? Skip face rendering"; };
+LABEL { ADDR $C157; NAME "BuildFace";
+        COMMENT "Build card face: value + pips/figure"; };
+LABEL { ADDR $C159; NAME "CalcValueChar";
+        COMMENT "Calculate character for card value (ORA #$40)"; };
+LABEL { ADDR $C173; NAME "AdjustChar";
+        COMMENT "Adjust character code for special card types"; };
+LABEL { ADDR $C175; NAME "ApplyXor";
+        COMMENT "Apply final EOR to value character"; };
+LABEL { ADDR $C177; NAME "StoreValueChar";
+        COMMENT "Store value char in buffer corners"; };
+
+# --- Figure cards (J/Q/K = type 11/12/13) ---
+LABEL { ADDR $C17F; NAME "DrawFigure";
+        COMMENT "Draw 3-char-wide figure pattern (J/Q/K)"; };
+LABEL { ADDR $C185; NAME "FigureLoop";
+        COMMENT "Fill figure char columns across rows"; };
+
+# --- Card type 0: clear ---
+LABEL { ADDR $C19A; NAME "JumpToBlit";
+        COMMENT "Type 0: skip to screen blit (clear area)"; };
+
+# --- Suit symbol placement ---
+LABEL { ADDR $C19C; NAME "DrawSuitPips";
+        COMMENT "Place suit symbols based on card value"; };
+LABEL { ADDR $C1AD; NAME "CheckTens";
+        COMMENT "Card value >= 10? Use two-digit display"; };
+LABEL { ADDR $C1B1; NAME "CalcDigitChars";
+        COMMENT "Calculate chars for tens digit (10='1'+0)"; };
+LABEL { ADDR $C1BE; NAME "DrawDigits";
+        COMMENT "Draw digit characters on card face"; };
+LABEL { ADDR $C1C2; NAME "DigitLoop";
+        COMMENT "Place 3 digit chars per row across card"; };
+
+# --- Special: card back done ---
+LABEL { ADDR $C1D7; NAME "BackDone";
+        COMMENT "Card back: jump to blit"; };
+
+# --- Special: Joker (type 14, suit 3) ---
+LABEL { ADDR $C1D9; NAME "CheckJoker";
+        COMMENT "Check for Joker special case"; };
+
+# --- Pip placement (cards 1-9) ---
+LABEL { ADDR $C1EC; NAME "PlacePips";
+        COMMENT "Place suit pips using PIP_TABLE lookup"; };
+LABEL { ADDR $C1F1; NAME "PipCalcLoop";
+        COMMENT "Calculate pip table offset (triangular number)"; };
+LABEL { ADDR $C1FB; NAME "PipDrawLoop";
+        COMMENT "Read PIP_TABLE and place suit chars in buffer"; };
+LABEL { ADDR $C20D; NAME "StorePip";
+        COMMENT "Store suit character at buffer position"; };
+
+# =============================================================================
+# BLIT ENTRY + HOOK $C217-$C21F
+# TXTPTR is saved, then JMP NewBlit replaces the original inline blit.
+# =============================================================================
+
+LABEL { ADDR $C219; NAME "BlitCard";
+        COMMENT "Copy card buffer to screen + color RAM"; };
+LABEL { ADDR $C21D; NAME "BlitHook";
+        COMMENT "JMP NewBlit (was start of original inline blit)"; };
+
+# --- Dead zone: $C220-$C275 (86 bytes, original blit code replaced) ---
+RANGE { START $C220; END $C275; TYPE ByteTable; NAME "DeadZone";
+        COMMENT "Dead code zone (original blit replaced by NewBlit)"; };
+
+# --- Restore TXTPTR and return ---
+LABEL { ADDR $C276; NAME "BlitDone";
+        COMMENT "Restore TXTPTR and return"; };
+
+# =============================================================================
+# NEW CODE SECTION $C27D-$C404 (clipping extension)
+# =============================================================================
+
+RANGE { START $C27D; END $C404; TYPE Code; };
+
+# --- NewEval: signed parameter evaluation with offset ---
+# Called from EvalOneParam instead of FRMNUM.
+# For params 0/1 (X/Y): evaluates signed expression, adds offset (+6/+8).
+# For params 2/3 (type/suit): delegates to original FRMNUM.
+LABEL { ADDR $C27D; NAME "NewEval";
+        COMMENT "Evaluate param with signed support for X/Y"; };
+
+# --- Offset table for X/Y encoding ---
+RANGE { START $C2BA; END $C2BB; TYPE ByteTable; NAME "OFFSET_TABLE";
+        COMMENT "Offset table: +6 for X (param 0), +8 for Y (param 1)"; };
+
+# --- Clipping workspace variables (11 bytes) ---
+RANGE { START $C2BC; END $C2C6; TYPE ByteTable; NAME "ClipWorkspace";
+        COMMENT "Clipping variables: clip L/R/T/B, vis cols/rows, scr col/row, skip, buf_start, color"; };
+
+# --- NewBlit: screen blit with clipping ---
+# Replaces original blit. Computes clipping parameters from offset-encoded
+# PARAM_X/PARAM_Y, then blits only the visible portion of the card buffer.
+LABEL { ADDR $C2C7; NAME "NewBlit";
+        COMMENT "Blit card buffer to screen with clipping"; };
