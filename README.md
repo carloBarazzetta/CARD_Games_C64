@@ -99,6 +99,24 @@ You can download the files:
 - [Poker 4 English (2026) as Vice C64 Emulator Snapshot](./Poker4-en-vice-snapshot.vsf)
 
 ---
+## CARD ROUTINES 2 - OFF-SCREEN CLIPPING - 2026
+
+In 2026, a new version of the CARD ROUTINES was developed: **CARD ROUTINES 2**, which extends the CARD command to support off-screen coordinates with automatic clipping.
+
+With the original CARD ROUTINES, X must be between 0 and 33 and Y between 0 and 16, so the card is always fully visible. With CARD ROUTINES 2, X can range from **-6 to 39** and Y from **-8 to 24**, allowing cards to be drawn partially off-screen. The visible portion is automatically clipped.
+
+CARD ROUTINES 2 is fully backward-compatible: existing programs work without any change.
+
+![./Test-clipping](./Test-clipping.png)
+
+_In the image, 100 random cards drawn with the new extended coordinates, some partially clipped at the screen edges._
+
+The source code, assembly files and a test project are available in the Dev folder:
+- `card-routines-clipping.asm` - Annotated 6502 assembly source
+- `Dev/Test/` - Test project with 100 random cards in extended range
+- [Test-clipping.D64](./Test-clipping.D64) - Ready-to-run test disk image
+
+---
 ## DOCUMENTATION AND MANUALS
 
 In the ["Wiki"](https://github.com/carloBarazzetta/CARD_Games_C64/wiki) section you will find the online manual for using the CARD program.
