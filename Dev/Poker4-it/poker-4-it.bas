@@ -159,7 +159,7 @@
   754 if(a$="f"ora$=" "ora$=chr$(13))andjo=2thena$="c"
   755 ifa$<>"r"anda$<>"c"thengosub10500:goto749
   756 ifa$="r"thennm=32
-  757 print:print:print"{blk}         mazzo scelto:";nm;"carte"
+  757 print:print:print:print"{blk}         mazzo scelto:";nm;"carte"
   758 vf=6:vh=2:ifnm=52thenvf=5:vh=3
   759 poke198,0:print:print:print"{gry1}     va bene cosi'?   [S]   [N]    "
   760 jo=1:jp=31:mr=peek(214)-1:gosub63600
@@ -385,10 +385,10 @@
 13010 ifa$="l"thengosub63400:goto13007
 13011 ifa$="r"thenjc=jc+1:ifjc>5thenjc=1
 13012 ifa$="r"thengosub63400:goto13007
-13013 ifa$="u"ora$="d"thena$=mid$(str$(jc),2)
-13014 rem fire=conferma (a$ gia' chr$(13))
-13015 if(val(a$)<1orval(a$)>5)anda$<>chr$(13)anda$<>" "thengosub10500:goto13007
-13016 ifa$=chr$(13)ora$=" "thenprintcl$:goto13060
+13013 ifa$="u"ora$="d"ora$=" "thena$=mid$(str$(jc),2)
+13014 rem invio/fire=conferma, spazio=gira carta
+13015 if(val(a$)<1orval(a$)>5)anda$<>chr$(13)thengosub10500:goto13007
+13016 ifa$=chr$(13)thenprintcl$:goto13060
 13017 y=14:x=(val(a$)-1)*8
 13020 ifcb(val(a$),4)=0andct<>4then13040
 13025 ifcb(val(a$),4)=1andct<>0then13030
@@ -758,10 +758,11 @@
 59880 forw=1to100:next
 59900 return
 59950 rem stampa centrata
-59952 sa=1024+cy*40+cx
-59954 forw7=satosa+cw-1:pokew7,160:pokew7+54272,cc:next
+59952 poke214,cy:poke211,cx:sys58640:poke646,cc
+59953 w7=cw:ifcy=24andcx+cw>39thenw7=39-cx:poke2023,160:poke56295,cc
+59954 print"{rvon}"left$("                    ",w7);
 59956 ifc$=""then59960
-59958 poke214,cy:poke211,cx+int((cw-len(c$))/2):sys58640:poke646,cc:print"{rvon}"c$;
+59958 poke214,cy:poke211,cx+int((cw-len(c$))/2):sys58640:print"{rvon}"c$;
 59960 print"{home}";:return
 60000 rem cancella
 60005 print"{home}"
@@ -820,10 +821,10 @@
 63180 return
 63190 return
 63200 rem evidenzia opzione splash
-63210 s1=1024+sr*40+10:s2=1024+(sr+1)*40+10
-63212 pokes1,155:pokes1+1,137:pokes1+2,157:pokes2,155:pokes2+1,135:pokes2+2,157
-63214 ifjo=1thenpokes1,190:pokes1+1,9:pokes1+2,188
-63216 ifjo=2thenpokes2,190:pokes2+1,7:pokes2+2,188
+63210 poke214,sr:poke211,10:sys58640:print"{gry2}{rvon}[i]";
+63212 poke214,sr+1:poke211,10:sys58640:print"[g]";
+63214 ifjo=1thenpoke214,sr:poke211,10:sys58640:print">{rvof}i{rvon}<";
+63216 ifjo=2thenpoke214,sr+1:poke211,10:sys58640:print">{rvof}g{rvon}<";
 63220 return
 63300 rem evidenzia opzione messaggio
 63305 ifjo<1thenreturn
@@ -833,47 +834,46 @@
 63316 iffz=2andms=18thengosub63380:return
 63318 return
 63320 rem highlight apro/passo riga 23
-63322 s1=1024+23*40+7:s2=1024+23*40+24
-63324 pokes1,155:pokes1+1,129:pokes1+2,157:pokes2,155:pokes2+1,144:pokes2+2,157
-63326 ifjo=1thenpokes1,190:pokes1+1,1:pokes1+2,188
-63328 ifjo=2thenpokes2,190:pokes2+1,16:pokes2+2,188
+63322 poke214,23:poke211,7:sys58640:print"{blk}{rvon}[a]";
+63324 poke211,24:sys58640:print"[p]";
+63326 ifjo=1thenpoke211,7:sys58640:print">{rvof}a{rvon}<";
+63328 ifjo=2thenpoke211,24:sys58640:print">{rvof}p{rvon}<";
 63330 return
 63340 rem highlight gioco/rilancio/lascio riga 23
-63342 s1=1024+23*40+1:s2=1024+23*40+13:s3=1024+23*40+29
-63344 pokes1,155:pokes1+1,135:pokes1+2,157:pokes2,155:pokes2+1,146:pokes2+2,157
-63345 pokes3,155:pokes3+1,140:pokes3+2,157
-63346 ifjo=1thenpokes1,190:pokes1+1,7:pokes1+2,188
-63348 ifjo=2thenpokes2,190:pokes2+1,18:pokes2+2,188
-63350 ifjo=3thenpokes3,190:pokes3+1,12:pokes3+2,188
+63342 poke214,23:poke211,1:sys58640:print"{blk}{rvon}[g]";
+63344 poke211,13:sys58640:print"[r]";:poke211,29:sys58640:print"[l]";
+63346 ifjo=1thenpoke211,1:sys58640:print">{rvof}g{rvon}<";
+63348 ifjo=2thenpoke211,13:sys58640:print">{rvof}r{rvon}<";
+63350 ifjo=3thenpoke211,29:sys58640:print">{rvof}l{rvon}<";
 63352 return
 63360 rem highlight punto/cip riga 23
-63362 s1=1024+23*40+7:s2=1024+23*40+25
-63364 pokes1,155:pokes1+1,144:pokes1+2,157:pokes2,155:pokes2+1,131:pokes2+2,157
-63366 ifjo=1thenpokes1,190:pokes1+1,16:pokes1+2,188
-63368 ifjo=2thenpokes2,190:pokes2+1,3:pokes2+2,188
+63362 poke214,23:poke211,7:sys58640:print"{blk}{rvon}[p]";
+63364 poke211,25:sys58640:print"[c]";
+63366 ifjo=1thenpoke211,7:sys58640:print">{rvof}p{rvon}<";
+63368 ifjo=2thenpoke211,25:sys58640:print">{rvof}c{rvon}<";
 63370 return
 63380 rem highlight vedo/rilancio/lascio riga 23
-63382 s1=1024+23*40+1:s2=1024+23*40+13:s3=1024+23*40+29
-63384 pokes1,155:pokes1+1,150:pokes1+2,157:pokes2,155:pokes2+1,146:pokes2+2,157
-63385 pokes3,155:pokes3+1,140:pokes3+2,157
-63386 ifjo=1thenpokes1,190:pokes1+1,22:pokes1+2,188
-63388 ifjo=2thenpokes2,190:pokes2+1,18:pokes2+2,188
-63390 ifjo=3thenpokes3,190:pokes3+1,12:pokes3+2,188
+63382 poke214,23:poke211,1:sys58640:print"{blk}{rvon}[v]";
+63384 poke211,13:sys58640:print"[r]";:poke211,29:sys58640:print"[l]";
+63386 ifjo=1thenpoke211,1:sys58640:print">{rvof}v{rvon}<";
+63388 ifjo=2thenpoke211,13:sys58640:print">{rvof}r{rvon}<";
+63390 ifjo=3thenpoke211,29:sys58640:print">{rvof}l{rvon}<";
 63392 return
 63400 rem highlight carta exchange riga 23
-63405 forjj=1to5:s1=1024+23*40+(jj-1)*8+2:pokes1,155:pokes1+1,48+jj+128:pokes1+2,157:next
-63410 ifjc>=1andjc<=5thens1=1024+23*40+(jc-1)*8+2:pokes1,190:pokes1+1,48+jc:pokes1+2,188
+63402 poke214,23
+63405 forjj=1to5:poke211,(jj-1)*8+2:sys58640:print"{blk}{rvon}[";chr$(48+jj);"]";:next
+63410 ifjc>=1andjc<=5thenpoke211,(jc-1)*8+2:sys58640:print"{rvon}>{rvof}";chr$(48+jc);"{rvon}<";
 63420 return
 63500 rem evidenzia scelta mazzo
-63505 s1=1024+mr*40+10:s2=1024+(mr+1)*40+10
-63510 pokes1,27:pokes1+1,18:pokes1+2,29:pokes2,27:pokes2+1,3:pokes2+2,29
-63515 ifjo=1thenpokes1,62:pokes1+2,60:pokes1+1,18+128
-63520 ifjo=2thenpokes2,62:pokes2+2,60:pokes2+1,3+128
+63505 poke214,mr:poke211,10:sys58640:print"{red}[r]";
+63510 poke214,mr+1:poke211,10:sys58640:print"[c]";
+63515 ifjo=1thenpoke214,mr:poke211,10:sys58640:print">{rvon}r{rvof}<";
+63520 ifjo=2thenpoke214,mr+1:poke211,10:sys58640:print">{rvon}c{rvof}<";
 63525 return
 63600 rem evidenzia s/n
-63605 s1=1024+mr*40
-63610 pokes1+22,27:pokes1+23,19:pokes1+24,29:pokes1+28,27:pokes1+29,14:pokes1+30,29
-63615 ifjo=1thenpokes1+22,62:pokes1+24,60:pokes1+23,19+128
-63620 ifjo=2thenpokes1+28,62:pokes1+30,60:pokes1+29,14+128
+63605 poke214,mr:poke211,22:sys58640:print"{gry1}[s]";
+63610 poke211,28:sys58640:print"[n]";
+63615 ifjo=1thenpoke211,22:sys58640:print">{rvon}s{rvof}<";
+63620 ifjo=2thenpoke211,28:sys58640:print">{rvon}n{rvof}<";
 63625 return
 
