@@ -117,6 +117,20 @@ Il codice sorgente, i file di assemblaggio e un progetto di test sono disponibil
 - [Test-clipping.D64](./Test-clipping.D64) - Disco di test pronto per l'uso
 
 ---
+## SUPPORTO JOYSTICK - 2026
+
+Nel 2026 è stato aggiunto il supporto joystick (porta 2) a tutti e quattro i giochi della collezione: **Briscola italiano**, **Briscola inglese**, **Poker 4 italiano** e **Poker 4 inglese**.
+
+Tutti i punti interattivi dei giochi possono ora essere controllati con il joystick:
+
+- **Navigazione menu**: muovi su/giù per selezionare le opzioni, premi fire per confermare
+- **Scelta carta**: muovi sinistra/destra per evidenziare una carta, premi fire per giocarla
+- **Domande sì/no**: muovi sinistra/destra per scegliere, premi fire per confermare
+- **Input nome**: muovi sinistra/destra per scorrere le lettere, premi fire per inserire un carattere, muovi su per confermare il nome
+
+Tutti i giochi rimangono pienamente utilizzabili con la tastiera. Il joystick fornisce un metodo di input alternativo che funziona insieme ai controlli da tastiera.
+
+---
 ## DOCUMENTAZIONE E MANUALI
 
 Nella sezione ["Wiki"](https://github.com/carloBarazzetta/CARD_Games_C64/wiki) trovate il manuale online per utilizzare il programma CARD.
