@@ -7,6 +7,7 @@
    40 :
    41 poke54276,8:poke54283,8:poke54296,12:poke650,0
    42 gosub63000
+   43 jp=31
    45 print"{clr}":k1=49152:sysk1+138
    50 poke53280,0
    60 poke53281,1
@@ -24,12 +25,18 @@
   145 print"{rght}{rght}{rght}{rght}{rght}{rght}{rght}{rght}{rght}{rvon}     1987..2026      "
   150 print"{rght}{rght}{rght}{rght}{rght}{rght}{rght}{rght}{rght}{rvon}                     "
   160 print"{rght}{rght}{rght}{rght}{rght}{rght}{rght}{rght}{rght}{gry2}{rvon}                     "
-  170 print"{rght}{rght}{rght}{rght}{rght}{rght}{rght}{rght}{rght}{rvon}  [i] instructions   "
-  180 print"{rght}{rght}{rght}{rght}{rght}{rght}{rght}{rght}{rght}{rvon}  [p] play poker 4   "
+  170 print"{rght}{rght}{rght}{rght}{rght}{rght}{rght}{rght}{rght}{rvon} [i] instructions    "
+  180 print"{rght}{rght}{rght}{rght}{rght}{rght}{rght}{rght}{rght}{rvon} [p] play poker 4    "
   190 print"{rght}{rght}{rght}{rght}{rght}{rght}{rght}{rght}{rght}{rvon}                     "
-  195 poke198,0
-  200 geta$:ifa$=""then200
-  205 ifa$="p"then600
+  193 sr=17
+  195 poke198,0:jo=1:jp=31:gosub63200
+  200 geta$:jl$="":jr$="":jf$="f":ju$="u":jd$="d":gosub63100
+  201 ifa$=""thengosub63190:goto200
+  202 ifa$="u"thenjo=1:gosub63200:goto200
+  203 ifa$="d"thenjo=2:gosub63200:goto200
+  204 if(a$="f"ora$=" "ora$=chr$(13))andjo=1thena$="i":goto210
+  205 if(a$="f"ora$=" "ora$=chr$(13))andjo=2thena$="p"
+  206 ifa$="p"then600
   210 ifa$<>"i"thengosub10500:goto200
   220 print"{clr}";
   230 print"{blk}instructions:"
@@ -52,9 +59,9 @@
   390 print
   400 print"{grn}(*) 52 cards: full house beats flush."
   410 print"    32 cards: flush beats full house."
-  440 print:print"{gry1}{down}       press any key to continue";
-  445 poke198,0
-  450 geta$:ifa$=""then450                        "
+  440 print:print"{gry1}{down}   press [space/fire] to continue";
+  445 poke198,0:jp=31
+  450 geta$:jf$=" ":jl$="":jr$="":ju$="":jd$="":gosub63100:ifa$=""thengosub63190:goto450
   460 print"{clr}{blu}to get one of these combinations each"
   462 print"player can discard and draw up to 4    "
   464 print"new cards.                             "
@@ -71,13 +78,13 @@
   550 print"the player with the highest combination"
   560 print"at the end wins the pot.               "
   570 print:print"{grn}enjoy the game!                      "
-  580 print:print:print"{gry1}        press any key to play       "
-  585 poke198,0
-  590 geta$:ifa$=""then590                         "
+  580 print:print:print"{gry1}     press [space/fire] to play"
+  585 poke198,0:jp=31
+  590 geta$:jf$=" ":jl$="":jr$="":ju$="":jd$="":gosub63100:ifa$=""thengosub63190:goto590
   600 print"{clr}"
   605 print"{blk}           enter player names"
   607 print:print
-  608 w=4:n$(4)=""
+  608 w=4:n$(4)="player"
   609 print"{brn}{rght}{rght}enter your name >            <{left}{left}{left}{left}{left}{left}{left}{left}{left}{left}{left}{left}{left}";:goto640
   610 print
   612 print"{blk}           enter player names"
@@ -85,17 +92,33 @@
   615 print
   620 forw=1to3
   625 n$(w)=""
+  626 ifw=1thenn$(w)="first"
+  627 ifw=2thenn$(w)="second"
+  628 ifw=3thenn$(w)="third"
   630 print"{red}{rght}{rght}player"w"{left}'s name >        <{left}{left}{left}{left}{left}{left}{left}{left}{left}";
   640 w9=13:ifw<>4thenw9=9
-  641 w5=1:print"{blu}";
+  641 w5=len(n$(w))+1:jk=0:jn=1:jp=31:print"{blu}";
+  642 printn$(w);
   645 print"{down}{left} {blk}^{blu}{up}{left}";
-  650 geta$:ifa$=""then650
-  652 w6=asc(a$)
-  655 if(w6<65orw6>90)andw6<>13andw6<>20andw6<>32thengosub10500:goto650
-  657 ifw6=13thenprint"{down} ":goto685
-  660 ifw6=20thenw5=w5-1:ifw5=0thenw5=1:gosub10500:goto645
-  665 ifw6=20thenprint"{down} {up}{left}{left} {left}";:n$(w)=left$(n$(w),len(n$(w))-1):goto645
-  670 ifw5=w9thengosub10500:goto650
+  646 geta$:jl$=chr$(157):jr$=chr$(29):jf$=chr$(133):ju$=chr$(145):jd$="":gosub63100
+  647 ifa$=""thengosub63190:goto646
+  648 ifa$=chr$(157)thenjn=jn-1:ifjn<1thenjn=27
+  649 ifa$=chr$(157)thengoto645
+  650 ifa$=chr$(29)thenjn=jn+1:ifjn>27thenjn=1
+  651 ifa$=chr$(29)thengoto645
+  652 ifa$=chr$(133)andjk=0thena$=chr$(13):goto656
+  653 ifa$=chr$(133)andjn<=26thena$=chr$(64+jn):goto656
+  654 ifa$=chr$(133)thena$=" ":goto656
+  655 ifa$=chr$(145)thena$=chr$(13):goto656
+  656 w6=asc(a$)
+  658 if(w6<65orw6>90)andw6<>13andw6<>20andw6<>32thengosub10500:goto646
+  660 ifw6=13andn$(w)=""thengosub10500:goto646
+  661 ifw6=13thenprint"{down} ":goto685
+  662 ifw6=20andjk=0thengosub54850:n$(w)=left$(n$(w),len(n$(w))-1):w5=len(n$(w))+1:jk=1:printn$(w);:goto645
+  664 ifw6=20andw5<=1thengosub10500:goto645
+  666 ifw6=20thenprint"{down} {up}{left}{left} {left}";:n$(w)=left$(n$(w),len(n$(w))-1):w5=w5-1:goto645
+  668 ifjk=0thenn$(w)="":gosub54850:w5=1:jk=1
+  670 ifw5=w9thengosub10500:goto646
   675 printa$;:n$(w)=n$(w)+a$
   680 w5=w5+1:goto645
   685 print:ifw=4then612
@@ -106,32 +129,49 @@
   696 ifw7/2=int(w7/2)thenprint"{blk}    duplicate names, enter again!  ":goto698
   697 print"{red}    duplicate names, enter again!  "
   698 forw6=1to400:nextw6:nextw7:goto600
-  710 print:print"{gry1}           is this ok? (y/n)"
-  720 geta$:ifa$=""then720
-  725 ifa$<>"y"anda$<>"n"thengosub10500:goto720
+  710 print:print"{gry1}     is this ok?      [Y]   [N]       "
+  715 jo=1:jp=31:mr=peek(214)-1:gosub63600
+  720 geta$:jl$="l":jr$="r":jf$="f":ju$="":jd$="":gosub63100
+  721 ifa$=""thengosub63190:goto720
+  722 ifa$="l"thenjo=1:gosub63600:goto720
+  723 ifa$="r"thenjo=2:gosub63600:goto720
+  724 if(a$="f"ora$=" "ora$=chr$(13))andjo=1thena$="y"
+  725 if(a$="f"ora$=" "ora$=chr$(13))andjo=2thena$="n"
+  726 ifa$<>"y"anda$<>"n"thengosub10500:goto720
   730 ifa$="n"then600
   735 print"{clr}"
   736 print"{blk}          game configuration"
   737 print
   738 print"    (enter to confirm the value)"
   739 bo=1000:an=10:pm=100:nm=52:print:print
-  740 print"{grn}         wallet:{blk}$1000  {grn}>     <{left}{left}{left}{left}{left}{left}";:v=bo:gosub54700:bo=v
-  742 print"{grn}           ante:{blk}  $10  {grn}>     <{left}{left}{left}{left}{left}{left}";:v=an:gosub54700:an=v
-  744 print"{grn}        max bet:{blk} $100  {grn}>     <{left}{left}{left}{left}{left}{left}";:v=pm:gosub54700:pm=v
+  740 print"{grn}            wallet:{blk}$1000  {grn}>     <{left}{left}{left}{left}{left}{left}";:vi=100:v=bo:gosub54700:bo=v
+  742 print"{grn}              ante:{blk}  $10  {grn}>     <{left}{left}{left}{left}{left}{left}";:vi=10:v=an:gosub54700:an=v
+  744 print"{grn}           max bet:{blk} $100  {grn}>     <{left}{left}{left}{left}{left}{left}";:vi=10:v=pm:gosub54700:pm=v
   745 ifbo<2*pmoran>=pmthengosub54730:goto735
-  746 print:print"{grn}    deck: {red}[1]{grn} 52 cards  {red}[2]{grn} 32 cards"
+  746 print:print"{grn}   deck:  {red}[S]{grn} short (32 cards)":print"{grn}          {red}[F]{grn} full (52 cards)"
+  747 jo=1:jp=31:mr=peek(214)-2:gosub63500
   748 poke198,0
-  750 geta$:ifa$=""then750
-  752 ifa$<>"1"anda$<>"2"thengosub10500:goto750
-  754 ifa$="2"thennm=32
-  755 print:print"{blk}         chosen deck:";nm;"cards"
-  756 ifnm=52thenvf=5:vh=3:goto759
-  758 vf=6:vh=2
-  759 poke198,0:print:print"{gry1}           is this ok? (y/n)"
-  760 geta$:ifa$=""then760
-  761 ifa$<>"y"anda$<>"n"thengosub10500:goto760
-  762 ifa$="n"then735
-  763 print"{clr}"
+  749 geta$:jl$="":jr$="":jf$="f":ju$="u":jd$="d":gosub63100
+  750 ifa$=""thengosub63190:goto749
+  751 ifa$="u"thenjo=1:gosub63500:goto749
+  752 ifa$="d"thenjo=2:gosub63500:goto749
+  753 if(a$="f"ora$=" "ora$=chr$(13))andjo=1thena$="s"
+  754 if(a$="f"ora$=" "ora$=chr$(13))andjo=2thena$="f"
+  755 ifa$<>"s"anda$<>"f"thengosub10500:goto749
+  756 ifa$="s"thennm=32
+  757 print:print:print:print"{blk}         chosen deck:";nm;"cards"
+  758 vf=6:vh=2:ifnm=52thenvf=5:vh=3
+  759 poke198,0:print:print:print"{gry1}     is this ok?      [Y]   [N]       "
+  760 jo=1:jp=31:mr=peek(214)-1:gosub63600
+  761 geta$:jl$="l":jr$="r":jf$="f":ju$="":jd$="":gosub63100
+  762 ifa$=""thengosub63190:goto761
+  763 ifa$="l"thenjo=1:gosub63600:goto761
+  764 ifa$="r"thenjo=2:gosub63600:goto761
+  765 if(a$="f"ora$=" "ora$=chr$(13))andjo=1thena$="y":goto767
+  766 if(a$="f"ora$=" "ora$=chr$(13))andjo=2thena$="n":goto767
+  767 ifa$<>"y"anda$<>"n"thengosub10500:goto761
+  768 ifa$="n"then735
+  769 print"{clr}"
   770 forw=1to4
   775 s(w)=bo
   810 next
@@ -225,7 +265,8 @@
  1802 printcl$;:kk=4:gosub60000
  1803 printcl$;
  1804 gosub54600
- 1805 gj=4:printin$;"{rvon}{blk} "n$(g)": "co$;
+ 1805 gj=4:printin$;"{rvon}{blk}"n$(g)":"co$".";
+
  1810 ji=g:gosub52070
  1820 ms=12:gosub58000
  1830 g=g+1:nextw5
@@ -248,10 +289,8 @@
  2037 nextw
  2040 ifs(4)>=anthen2045
  2041 w1$="     too bad...      ":w2$="     you lost!!      ":goto2060
- 2045 ifw8>0then2050
+ 2045 ifw8>0then1000
  2046 w1$="  congratulations!!  ":w2$="      you won!!      ":goto2060
- 2050 ms=12:gj=4:gosub58000
- 2055 goto1000
  2060 rem game over
  2061 forw=1to250:next:poke198,0
  2062 ms=12:gj=4:gosub58000
@@ -269,9 +308,10 @@
  2140 print"{rght}{rght}{rght}{rght}{rght}{rght}{rght}{rght}{rght}{rvon}   new challenge?    "
  2150 print"{rght}{rght}{rght}{rght}{rght}{rght}{rght}{rght}{rght}{rvon}                     "
  2160 print"{rght}{rght}{rght}{rght}{rght}{rght}{rght}{rght}{rght}{gry2}{rvon}                     "
- 2170 print"{rght}{rght}{rght}{rght}{rght}{rght}{rght}{rght}{rght}{rvon}  [i] instructions   "
- 2180 print"{rght}{rght}{rght}{rght}{rght}{rght}{rght}{rght}{rght}{rvon}  [p] play poker 4   "
+ 2170 print"{rght}{rght}{rght}{rght}{rght}{rght}{rght}{rght}{rght}{rvon} [i] instructions    "
+ 2180 print"{rght}{rght}{rght}{rght}{rght}{rght}{rght}{rght}{rght}{rvon} [p] play poker 4    "
  2190 print"{rght}{rght}{rght}{rght}{rght}{rght}{rght}{rght}{rght}{rvon}                     "
+ 2194 sr=18
  2195 goto195
  9999 goto1000
 10000 poke54273,255
@@ -293,15 +333,30 @@
 11005 fz=1
 11010 ifap<>0then11150
 11020 ms=14:gj=4:gosub58000
-11030 geta$:ifa$=""then11030
-11035 ifa$<>"o"anda$<>"p"thengosub10500:goto11030
+11022 jo=1:jp=31:gosub63300
+11030 geta$:jl$="l":jr$="r":jf$="f":ju$="":jd$="":gosub63100
+11031 ifa$=""thengosub63190:goto11030
+11032 ifa$="l"thenjo=1:gosub63300:goto11030
+11033 ifa$="r"thenjo=2:gosub63300:goto11030
+11034 if(a$="f"ora$=" "ora$=chr$(13))andjo=1thena$="o"
+11035 if(a$="f"ora$=" "ora$=chr$(13))andjo=2thena$="p"
+11036 ifa$<>"o"anda$<>"p"thengosub10500:goto11030
 11040 ifa$="p"then11100
 11050 printcl$:gosub12000
 11060 printcl$:pu=sl:s(4)=s(4)-sl:vs(4)=pu:ba=ba+pu:ap=4
 11100 goto11400
 11150 ms=15:gj=4:gosub58000
-11160 geta$:ifa$=""then11160
-11165 ifa$<>"c"anda$<>"r"anda$<>"f"thengosub10500:goto11160
+11152 jo=1:jp=31:gosub63300
+11160 geta$:jl$="<":jr$=">":jf$="f":ju$="":jd$="":gosub63100
+11161 ifa$=""thengosub63190:goto11160
+11162 ifa$="<"thenjo=jo-1:ifjo<1thenjo=3
+11163 ifa$="<"thengosub63300:goto11160
+11164 ifa$=">"thenjo=jo+1:ifjo>3thenjo=1
+11165 ifa$=">"thengosub63300:goto11160
+11166 if(a$="f"ora$=" "ora$=chr$(13))andjo=1thena$="c"
+11167 if(a$="f"ora$=" "ora$=chr$(13))andjo=2thena$="r"
+11168 if(a$="f"ora$=" "ora$=chr$(13))andjo=3thena$="f"
+11169 ifa$<>"c"anda$<>"r"anda$<>"f"thengosub10500:goto11160
 11170 ifa$="f"thenvs(4)=-1:kk=4:gosub60000:goto11400
 11180 ifa$="c"thens(4)=s(4)-(pu-vs(4)):ba=ba+(pu-vs(4)):vs(4)=pu:goto11400
 11190 printcl$:gosub12000
@@ -309,7 +364,9 @@
 11400 gosub56000:gosub57000:printcl$:return
 12000 sl=an:poke650,128
 12020 ms=16:gj=4:gosub58000:print"$";sl;"{left} ";
-12030 geta$:ifa$=""then12030
+12025 jp=31
+12030 geta$:jl$="":jr$="":jf$=chr$(13):ju$="+":jd$="-":gosub63100
+12031 ifa$=""thengosub63190:goto12030
 12035 ifa$<>"+"anda$<>"-"anda$<>chr$(13)thengosub10500:goto12030
 12040 ifa$=chr$(13)then12080
 12050 ifa$<>"-"then12070
@@ -319,22 +376,29 @@
 12075 goto12020
 12080 poke650,0
 12090 return
-13000 printcl$:printin$;"{rvon}{blk}   1       2       3       4       5";
+13000 printcl$:printin$;"{rvon}{blk}  [1]     [2]     [3]     [4]     [5]  ";
 13001 poke198,0
 13005 forw=1to5:cb(w,4)=0:nextw
-13007 ct=0
-13010 geta$:ifa$=""then13010
-13011 if(val(a$)<1orval(a$)>5)anda$<>chr$(13)thengosub10500:goto13010
-13012 ifa$=chr$(13)thenprintcl$:goto13060
-13015 y=14:x=(val(a$)-1)*8
+13006 ct=0:jc=1:jp=31:gosub63400
+13007 geta$:jl$="l":jr$="r":jf$=chr$(13):ju$="u":jd$="d":gosub63100
+13008 ifa$=""thengosub63190:goto13007
+13009 ifa$="l"thenjc=jc-1:ifjc<1thenjc=5
+13010 ifa$="l"thengosub63400:goto13007
+13011 ifa$="r"thenjc=jc+1:ifjc>5thenjc=1
+13012 ifa$="r"thengosub63400:goto13007
+13013 ifa$="u"ora$="d"ora$=" "thena$=mid$(str$(jc),2)
+13014 rem enter/fire=confirm, space=flip card
+13015 if(val(a$)<1orval(a$)>5)anda$<>chr$(13)thengosub10500:goto13007
+13016 ifa$=chr$(13)thenprintcl$:goto13060
+13017 y=14:x=(val(a$)-1)*8
 13020 ifcb(val(a$),4)=0andct<>4then13040
 13025 ifcb(val(a$),4)=1andct<>0then13030
-13027 gosub10500:goto13010
+13027 gosub10500:goto13007
 13030 ct=ct-1:cb(val(a$),4)=0:gosub10000
 13032 cardx,y,ca(4,val(a$),1)+(ca(4,val(a$),1)=14)*13,ca(4,val(a$),2)
-13035 goto13010
+13035 goto13007
 13040 ct=ct+1:cb(val(a$),4)=1:gosub10000:cardx,y,15,2
-13050 goto13010
+13050 goto13007
 13060 gj=4
 13070 forw=1to5
 13080 ifcb(w,4)=1thenx=(w-1)*8:cardx,y,0,0
@@ -405,15 +469,30 @@
 16005 fz=2
 16010 ifap<>0then16150
 16020 ms=17:gj=4:gosub58000
-16030 geta$:ifa$=""then16030
-16035 ifa$<>"b"anda$<>"k"thengosub10500:goto16030
+16022 jo=1:jp=31:gosub63300
+16030 geta$:jl$="l":jr$="r":jf$="f":ju$="":jd$="":gosub63100
+16031 ifa$=""thengosub63190:goto16030
+16032 ifa$="l"thenjo=1:gosub63300:goto16030
+16033 ifa$="r"thenjo=2:gosub63300:goto16030
+16034 if(a$="f"ora$=" "ora$=chr$(13))andjo=1thena$="b"
+16035 if(a$="f"ora$=" "ora$=chr$(13))andjo=2thena$="k"
+16036 ifa$<>"b"anda$<>"k"thengosub10500:goto16030
 16040 ifa$="k"then16100
 16050 printcl$:gosub12000
 16060 printcl$:pu=sl:s(4)=s(4)-sl:vs(4)=pu:ba=ba+pu:ap=4
 16100 goto16400
 16150 ms=18:gj=4:gosub58000
-16160 geta$:ifa$=""then16160
-16165 ifa$<>"s"anda$<>"r"anda$<>"f"thengosub10500:goto16160
+16152 jo=1:jp=31:gosub63300
+16160 geta$:jl$="<":jr$=">":jf$="f":ju$="":jd$="":gosub63100
+16161 ifa$=""thengosub63190:goto16160
+16162 ifa$="<"thenjo=jo-1:ifjo<1thenjo=3
+16163 ifa$="<"thengosub63300:goto16160
+16164 ifa$=">"thenjo=jo+1:ifjo>3thenjo=1
+16165 ifa$=">"thengosub63300:goto16160
+16166 if(a$="f"ora$=" "ora$=chr$(13))andjo=1thena$="s"
+16167 if(a$="f"ora$=" "ora$=chr$(13))andjo=2thena$="r"
+16168 if(a$="f"ora$=" "ora$=chr$(13))andjo=3thena$="f"
+16169 ifa$<>"s"anda$<>"r"anda$<>"f"thengosub10500:goto16160
 16170 ifa$="f"thenvs(4)=-1:kk=4:gosub60000:goto16400
 16180 ifa$="s"thens(4)=s(4)-(pu-vs(4)):ba=ba+(pu-vs(4)):vs(4)=pu:goto16400
 16185 ifpu>=fz*pm*2then16150
@@ -526,25 +605,41 @@
 54692 cx=0:cy=24:cw=20:c$=n$(4):cc=5:gosub59950
 54696 return
 54700 rem controlled numeric input
-54702 v$="":w5=0:print"{blu}";
+54701 jk=0
+54702 v$=mid$(str$(v),2):w5=len(v$):jp=31:print"{blu}";
+54703 printv$;
 54704 print"{down}{left} {blk}^{blu}{up}{left}";
-54706 geta$:ifa$=""then54706
-54708 w6=asc(a$)
-54710 if(w6<48orw6>57)andw6<>13andw6<>20thengosub10500:goto54706
-54711 ifw6<>13then54716
-54712 ifw5>0thenprint"{down} ":goto54720
-54714 v$=mid$(str$(v),2):printv$;"{down}";:forw7=1tolen(v$):print"{left}";:next:print" ":goto54720
-54716 ifw6=20thenw5=w5-1:ifw5<0thenw5=0:gosub10500:goto54704
-54717 ifw6=20thenprint"{down} {up}{left}{left} {left}";:v$=left$(v$,len(v$)-1):goto54704
-54718 ifw5>=5thengosub10500:goto54706
+54705 geta$:jf$=chr$(13):jl$="":jr$="":ju$="+":jd$="-":gosub63100
+54706 ifa$=""thengosub63190:goto54705
+54707 ifa$="+"thenv=v+vi:ifv>9999thenv=9999
+54708 ifa$="+"thengoto54740
+54709 ifa$="-"thenv=v-vi:ifv<1thenv=vi
+54710 ifa$="-"thengoto54740
+54711 w6=asc(a$)
+54712 ifw6=13thenprint"{down} ":goto54722
+54713 if(w6<48orw6>57)andw6<>20thengosub10500:goto54705
+54714 ifw6=20andjk=0thengosub54745:v$=left$(v$,len(v$)-1):w5=len(v$):jk=1:printv$;:goto54704
+54715 ifw6=20andw5<1thengosub10500:goto54704
+54716 ifw6=20thenprint"{down} {up}{left}{left} {left}";:v$=left$(v$,len(v$)-1):w5=w5-1:goto54704
+54717 ifjk=0thenv$="":gosub54745:w5=0:jk=1
+54718 ifw5>=5thengosub10500:goto54705
 54719 printa$;:v$=v$+a$:w5=w5+1:goto54704
-54720 ifval(v$)>0thenv=val(v$)
-54722 print"{blk}":return
+54722 ifval(v$)>0thenv=val(v$)
+54724 print"{blk}":return
+54740 rem update field after up/down
+54745 forw7=1tow5:print"{left}";:next:forw7=1tow5:print" ";:next:forw7=1tow5:print"{left}";:next
+54746 print"{down}";:forw7=0tow5:print" ";:next:forw7=0tow5:print"{left}";:next:print"{up}";
+54747 ifa$="+"ora$="-"thenjk=0:goto54702
+54748 return
 54730 forw7=1to4
 54731 ifw7/2=int(w7/2)thenprint"{blk}   amounts not consistent, retry!  {up}":goto54733
 54732 print"{red}   amounts not consistent, retry!  {up}"
 54733 forw6=1to400:nextw6:nextw7
 54734 return
+54850 rem clear name field
+54852 w8=w5-1:forw7=1tow8:print"{left}";:next:forw7=1tow8:print" ";:next:forw7=1tow8:print"{left}";:next
+54853 print"{down}";:forw7=0tow8:print" ";:next:forw7=0tow8:print"{left}";:next:print"{up}";
+54855 return
 54760 rem show busted in name area
 54762 cx=0:cy=24:cw=20:c$="busted!":cc=2:gosub59950
 54766 return
@@ -582,7 +677,8 @@
 58009 ifms=9thenc$="cards":cy=12:gosub59950:goto58020
 58010 c$="":cy=12:gosub59950:goto58020
 58013 ifms<>12then58020
-58015 geta$:ifa$=""then58015
+58014 jp=31
+58015 geta$:jf$=" ":jl$="":jr$="":ju$="":jd$="":gosub63100:ifa$=""thengosub63190:goto58015
 58016 ifa$<>" "thengosub10500:goto58015
 58017 printcl$;
 58020 return
@@ -598,17 +694,17 @@
 58110 ms$(9)="shuffling"
 58120 ms$(10)=""
 58122 ms$(11)="stand pat"
-58124 ms$(12)="{rght}{rght}{rght}{rght}{rght}{rght}{rght}{rght}{rght}{rght}{rght}{rght}{rght}{rght}{rght}{rght}{rght}{rght}{rght}{rght}{rght}{rght}{rght}{rght}{rght} press [space]"
+58124 ms$(12)="{rght}{rght}{rght}{rght}{rght}{rght}{rght}{rght}{rght}{rght}{rght}{rght}{rght}{rght}{rght}{rght}{rght}{rght}{rght}{rght}{rght}{rght}{rght}press space/fire"
 58126 ms$(13)=cl$+"{home}"
-58130 ms$(14)="      [o] open          [p] pass       "
-58140 ms$(15)="    [c] call    [r] raise    [f] fold  "
+58130 ms$(14)="       [o] open         [p] pass       "
+58140 ms$(15)=" [c] call    [r] raise       [f] fold   "
 58150 ms$(16)=" how much? (use + and -)"
 58160 ms$(17)="       [b] bet           [k] check     "
-58170 ms$(18)="    [s] see     [r] raise    [f] fold  "
+58170 ms$(18)=" [s] see     [r] raise       [f] fold   "
 58180 ms$(19)=" cards of: "
 58190 ms$(20)="i won!"
 58195 ms$(21)="         you are shuffling cards        "
-58197 ms$(22)="        you won !       "
+58197 ms$(22)="      you won!!     "
 58200 ms$(23)="busted!"
 58210 return
 59000 rem calculate draws
@@ -663,10 +759,11 @@
 59880 forw=1to100:next
 59900 return
 59950 rem centered print
-59952 sa=1024+cy*40+cx
-59954 forw7=satosa+cw-1:pokew7,160:pokew7+54272,cc:next
+59952 poke214,cy:poke211,cx:sys58640:poke646,cc
+59953 w7=cw:ifcy=24andcx+cw>39thenw7=39-cx:poke2023,160:poke56295,cc
+59954 print"{rvon}"left$("                    ",w7);
 59956 ifc$=""then59960
-59958 poke214,cy:poke211,cx+int((cw-len(c$))/2):sys58640:poke646,cc:print"{rvon}"c$;
+59958 poke214,cy:poke211,cx+int((cw-len(c$))/2):sys58640:print"{rvon}"c$;
 59960 print"{home}";:return
 60000 rem clear cards
 60005 print"{home}"
@@ -712,4 +809,72 @@
 63040 ifw$="poker 4"thenpoke53280,0:sys50944
 63050 w$="":w=0
 63060 return
+63100 rem --- joystick port 2 reading ---
+63110 jv=peek(56320)and31:rem read joystick state (bits 0-4, active low)
+63115 ifa$<>""thenreturn:rem keyboard key already pressed, ignore joystick
+63117 jx=(notjp)and31andjv:jp=jv:rem detect release: jx<>0 only on transition
+63120 ifjx=0thenreturn:rem no release detected
+63130 if(jxand4)<>0thenifjl$<>""thena$=jl$:return:rem bit 2: left
+63140 if(jxand8)<>0thenifjr$<>""thena$=jr$:return:rem bit 3: right
+63150 if(jxand16)<>0thenifjf$<>""thena$=jf$:return:rem bit 4: fire
+63160 if(jxand1)<>0thenifju$<>""thena$=ju$:return:rem bit 0: up
+63170 if(jxand2)<>0thenifjd$<>""thena$=jd$:return:rem bit 1: down
+63180 return
+63190 return
+63200 rem highlight splash option
+63210 poke214,sr:poke211,10:sys58640:print"{gry2}{rvon}[i]";
+63212 poke214,sr+1:poke211,10:sys58640:print"[p]";
+63214 ifjo=1thenpoke214,sr:poke211,10:sys58640:print">{rvof}i{rvon}<";
+63216 ifjo=2thenpoke214,sr+1:poke211,10:sys58640:print">{rvof}p{rvon}<";
+63220 return
+63300 rem highlight message option
+63305 ifjo<1thenreturn
+63310 iffz=1andms=14thengosub63320:return
+63312 iffz=1andms=15thengosub63340:return
+63314 iffz=2andms=17thengosub63360:return
+63316 iffz=2andms=18thengosub63380:return
+63318 return
+63320 rem highlight open/pass row 23
+63322 poke214,23:poke211,7:sys58640:print"{blk}{rvon}[o]";
+63324 poke211,24:sys58640:print"[p]";
+63326 ifjo=1thenpoke211,7:sys58640:print">{rvof}o{rvon}<";
+63328 ifjo=2thenpoke211,24:sys58640:print">{rvof}p{rvon}<";
+63330 return
+63340 rem highlight call/raise/fold row 23
+63342 poke214,23:poke211,1:sys58640:print"{blk}{rvon}[c]";
+63344 poke211,13:sys58640:print"[r]";:poke211,29:sys58640:print"[f]";
+63346 ifjo=1thenpoke211,1:sys58640:print">{rvof}c{rvon}<";
+63348 ifjo=2thenpoke211,13:sys58640:print">{rvof}r{rvon}<";
+63350 ifjo=3thenpoke211,29:sys58640:print">{rvof}f{rvon}<";
+63352 return
+63360 rem highlight bet/check row 23
+63362 poke214,23:poke211,7:sys58640:print"{blk}{rvon}[b]";
+63364 poke211,25:sys58640:print"[k]";
+63366 ifjo=1thenpoke211,7:sys58640:print">{rvof}b{rvon}<";
+63368 ifjo=2thenpoke211,25:sys58640:print">{rvof}k{rvon}<";
+63370 return
+63380 rem highlight see/raise/fold row 23
+63382 poke214,23:poke211,1:sys58640:print"{blk}{rvon}[s]";
+63384 poke211,13:sys58640:print"[r]";:poke211,29:sys58640:print"[f]";
+63386 ifjo=1thenpoke211,1:sys58640:print">{rvof}s{rvon}<";
+63388 ifjo=2thenpoke211,13:sys58640:print">{rvof}r{rvon}<";
+63390 ifjo=3thenpoke211,29:sys58640:print">{rvof}f{rvon}<";
+63392 return
+63400 rem highlight card exchange row 23
+63402 poke214,23
+63405 forjj=1to5:poke211,(jj-1)*8+2:sys58640:print"{blk}{rvon}[";chr$(48+jj);"]";:next
+63410 ifjc>=1andjc<=5thenpoke211,(jc-1)*8+2:sys58640:print"{rvon}>{rvof}";chr$(48+jc);"{rvon}<";
+63420 return
+63500 rem highlight deck choice
+63505 poke214,mr:poke211,10:sys58640:print"{red}[s]";
+63510 poke214,mr+1:poke211,10:sys58640:print"[f]";
+63515 ifjo=1thenpoke214,mr:poke211,10:sys58640:print">{rvon}s{rvof}<";
+63520 ifjo=2thenpoke214,mr+1:poke211,10:sys58640:print">{rvon}f{rvof}<";
+63525 return
+63600 rem highlight y/n
+63605 poke214,mr:poke211,22:sys58640:print"{gry1}[y]";
+63610 poke211,28:sys58640:print"[n]";
+63615 ifjo=1thenpoke211,22:sys58640:print">{rvon}y{rvof}<";
+63620 ifjo=2thenpoke211,28:sys58640:print">{rvon}n{rvof}<";
+63625 return
 
