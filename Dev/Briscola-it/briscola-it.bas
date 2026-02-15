@@ -6,6 +6,7 @@
    30 rem basic + comando 'card'
    40 :
    42 k1=49152:gosub 63900:sys k1+138:rem attiva il comando card
+   43 jp=31
    45 print chr$(147);
    50 dim mz(40,2):rem mazzo di carte
    51 dim c(3,2):rem carte che il computer ha in mano
@@ -35,8 +36,15 @@
   170 gosub 9100:print" [i] per istruzioni  "
   180 gosub 9100:print" [g] per giocare     "
   190 gosub 9100:gosub 9200:print
-  195 poke 198,0
-  200 get a$:if a$="g" then 500
+  193 sr=17
+  195 poke 198,0:jo=1:jp=31:gosub 63200
+  200 get a$:jl$="":jr$="":jf$="f":ju$="u":jd$="d":gosub 63100
+  201 if a$="" then gosub 63190:goto 200
+  202 if a$="u" then jo=1:gosub 63200:goto 200
+  203 if a$="d" then jo=2:gosub 63200:goto 200
+  204 if(a$="f" or a$=" " or a$=chr$(13)) and jo=1 then a$="i":goto 210
+  205 if(a$="f" or a$=" " or a$=chr$(13)) and jo=2 then a$="g"
+  206 if a$="g" then 500
   210 if a$<>"i" then 200
   220 print chr$(147);
   230 print chr$(31);"istruzioni:"
@@ -67,9 +75,9 @@
   382 print chr$(198);",";chr$(197);",";chr$(196);",";chr$(195);",";chr$(193);
   385 print"        0"
   390 print
-  400 print chr$(28);"     premi un tasto per continuare  ";
-  405 poke 198,0
-  410 get a$:if a$="" then 410
+  400 print chr$(28);"   premi [spazio/fire] per continuare";
+  405 poke 198,0:jp=31
+  410 get a$:jf$=" ":jl$="":jr$="":ju$="":jd$="":gosub 63100:if a$="" then gosub 63190:goto 410
   420 print chr$(147);
   430 print chr$(31);"il mazzo viene mischiato a turno"
   432 print"tra il computer ed il giocatore."
@@ -88,9 +96,9 @@
   453 print"percio' la briscola e' cuori e"
   454 print"tutte le carte di cuori sono briscole."
   455 print
-  456 print chr$(28);"     premi un tasto per continuare  ";
-  457 poke 198,0
-  458 get a$:if a$="" then 458
+  456 print chr$(28);"   premi [spazio/fire] per continuare";
+  457 poke 198,0:jp=31
+  458 get a$:jf$=" ":jl$="":jr$="":ju$="":jd$="":gosub 63100:if a$="" then gosub 63190:goto 458
   459 print chr$(147);
   460 print chr$(31);"si gioca mettendo sul tavolo"
   461 print"una carta ciascuno."
@@ -112,15 +120,17 @@
   494 print"se entrambi i giocatori hanno"
   495 print"totalizzato 60 punti, la partita e' pari";
   496 print
-  497 print chr$(28);"     premi un tasto per giocare  ";
-  498 poke 198,0
-  499 get a$:if a$="" then 499
+  497 print chr$(28);"    premi [spazio/fire] per giocare  ";
+  498 poke 198,0:jp=31
+  499 get a$:jf$=" ":jl$="":jr$="":ju$="":jd$="":gosub 63100:if a$="" then gosub 63190:goto 499
   500 rem inizio del gioco
-  501 print chr$(147);
-  502 print chr$(144);"come ti chiami (massimo 19 lettere)"
-  503 poke 198,0
-  504 input n$
-  506 if len(n$)=0 or len(n$)>19 then print"inserimento errato, ripeti":goto 502
+  501 print chr$(147);chr$(146);
+  502 poke 214,1:poke 211,2:sys 58640:print chr$(144);"come ti chiami (massimo 19 lettere)"
+  503 poke 198,0:if n$="" then n$="giocatore"
+  504 poke 214,3:poke 211,9:sys 58640:print chr$(28);">                   <";
+  505 zc$=chr$(157):zn=20:gosub 9000
+  506 w9=19:gosub 63700
+  507 gosub 63800:if a$="n" then 501
   508 t1=int(rnd(0)*2)+1:rem decide chi deve iniziare a giocare la prima partita
   510 rem nuova partita
   511 rem inizia a giocare chi nella partita precedente ha giocato per secondo
@@ -135,7 +145,7 @@
   520 nq=0:rem numero di carte di quadri gia' giocate
   521 nc=0:rem numero di carte di cuori gia' giocate
   522 bc=0:rem numero di carte di briscola che il computer ha in mano
-  523 na=0:fa=0
+  523 na=0:fa=0:jc=1
   524 for m1=1 to 10:for m2=1 to 4:mt(m1,m2)=0:next m2,m1
   525 print chr$(147);
   526 print chr$(18);
@@ -182,15 +192,13 @@
   684 gosub 55010
   686 next c1
   690 gosub 10000:card 33,5,mz(40,1),mz(40,2)
-  700 print chr$(19);
-  701 zc$=chr$(29):zn=31:gosub 9000
-  702 print chr$(17);chr$(17);chr$(31);"briscola:";chr$(17);
-  703 zc$=chr$(157):zn=7:gosub 9000
+  700 poke 214,2:poke 211,30:sys 58640
+  702 print chr$(31);"briscola:";
   710 on mz(40,2)+1 goto 730,740,750,760
-  730 print chr$(144);"picche":goto 770
-  740 print chr$(144);" fiori":goto 770
-  750 print chr$(28);"quadri":goto 770
-  760 print chr$(28);" cuori"
+  730 poke 214,3:poke 211,33:sys 58640:print chr$(144);"picche":goto 770
+  740 poke 214,3:poke 211,34:sys 58640:print chr$(144);"fiori":goto 770
+  750 poke 214,3:poke 211,33:sys 58640:print chr$(28);"quadri":goto 770
+  760 poke 214,3:poke 211,34:sys 58640:print chr$(28);"cuori"
   770 br=mz(40,2):rem salva il seme della briscola
   775 for w=1 to 500:next
   780 gosub 10000:card 33,10,15,1
@@ -224,17 +232,24 @@
  1200 x=c1*7-7:y=2:cc=1
  1210 gosub 45000:gosub 47000
  1250 next i
- 1260 gosub 40000:print chr$(18);"    fine partita":for w=1 to 1000:next
+ 1260 gosub 40000:print chr$(18);"     fine partita":for w=1 to 1000:next
  1270 gosub 40000
- 1280 if pc=pg then print chr$(18);"parita' 60 - 60":goto 1400
- 1290 if pc>pg then print chr$(18);"ho vinto io!";pc;"-";pg:goto 1400
- 1300 print chr$(18);"hai vinto tu";pg;"-";pc
+ 1280 if pc=pg then print chr$(18);"   parita' 60 - 60":goto 1400
+ 1290 if pc>pg then print chr$(18);" ho vinto io!";pc;"-";pg:goto 1400
+ 1300 print chr$(18);" hai vinto tu";pg;"-";pc
  1400 for w=1 to 9000:next
- 1410 gosub 40000:print chr$(18);"un'altra sfida (s/n)?"
+ 1410 gosub 40000:print chr$(18);" altra sfida? [s] [n]"
+ 1415 jo=1:jp=31:gosub 63600
  1420 poke 198,0
- 1430 get a$:if a$="s" then 510
- 1440 if a$<>"n" then 1430
- 1450 print chr$(147);chr$(144);"ciao":goto 63999:rem esce dal gioco
+ 1425 get a$:jl$="l":jr$="r":jf$="f":ju$="":jd$="":gosub 63100
+ 1426 if a$="" then gosub 63190:goto 1425
+ 1427 if a$="l" then jo=1:gosub 63600:goto 1425
+ 1428 if a$="r" then jo=2:gosub 63600:goto 1425
+ 1429 if(a$="f" or a$=" " or a$=chr$(13)) and jo=1 then a$="s"
+ 1430 if(a$="f" or a$=" " or a$=chr$(13)) and jo=2 then a$="n"
+ 1435 if a$="s" then 510
+ 1440 if a$<>"n" then 1425
+ 1450 print chr$(147);chr$(144);"ciao":goto 63999
  9000 rem stampa a video il carattere contenuto in zc$ per zn volte
  9005 if zc$="" goto 9099
  9007 if zn<=0 goto 9099
@@ -256,12 +271,37 @@
 10030 poke 54276,128
 10035 poke 54276,129
 10040 return
+10500 rem suono di errore
+10510 poke 54280,5
+10520 poke 54284,2*16+2
+10530 poke 54285,8*16+2
+10540 poke 54283,8
+10545 poke 54283,33
+10550 for w7=1 to 100:next
+10560 poke 54283,32
+10570 poke 198,0
+10580 return
 20000 rem tocca al giocatore giocare la propria carta
-20005 gosub 40000:print chr$(18);"tocca a te, carta ?"
-20007 poke 198,0
-20010 get a$:if val(a$)<1 or val(a$)>3 then 20010
-20020 g1=val(a$)
+20005 gosub 40000:print chr$(18);" tocca a te, carta ?"
+20006 jp=31:poke 198,0
+20007 if g(jc,1)=0 then jc=jc+1:if jc>3 then jc=1
+20008 if g(jc,1)=0 then jc=jc+1:if jc>3 then jc=1
+20009 gosub 63400
+20010 get a$:jl$="l":jr$="r":jf$="f":ju$="":jd$="":gosub 63100
+20011 if a$="" then gosub 63190:goto 20010
+20012 if a$<>"l" then 20016
+20013 jc=jc-1:if jc<1 then jc=3
+20014 if g(jc,1)=0 then 20013
+20015 gosub 63400:goto 20010
+20016 if a$<>"r" then 20020
+20017 jc=jc+1:if jc>3 then jc=1
+20018 if g(jc,1)=0 then 20017
+20019 gosub 63400:goto 20010
+20020 if a$="f" or a$=" " or a$=chr$(13) then a$=mid$(str$(jc),2)
+20021 if val(a$)<1 or val(a$)>3 then 20010
+20022 g1=val(a$):jc=g1
 20030 if g(g1,1)=0 then 20010
+20035 poke 214,23:poke 211,2:sys 58640:print chr$(144);"   ";:poke 211,9:sys 58640:print"   ";:poke 211,16:sys 58640:print"   ";
 20040 card g1*7-7,14,0,0
 20050 gosub 10000:card 24,10,g(g1,1),g(g1,2)
 20060 gosub 40000
@@ -419,6 +459,89 @@
 62140 if mt(1,c(c1,2)+1)=0 then pt(c1)=pt(c1)-5
 62150 if mt(3,c(c1,2)+1)=0 then pt(c1)=pt(c1)-4
 63000 return
+63100 rem --- lettura joystick porta 2 ---
+63110 jv=peek(56320) and 31
+63115 if a$<>"" then return
+63117 jx=(not jp) and 31 and jv:jp=jv
+63120 if jx=0 then return
+63130 if(jx and 4)<>0 then if jl$<>"" then a$=jl$:return
+63140 if(jx and 8)<>0 then if jr$<>"" then a$=jr$:return
+63150 if(jx and 16)<>0 then if jf$<>"" then a$=jf$:return
+63160 if(jx and 1)<>0 then if ju$<>"" then a$=ju$:return
+63170 if(jx and 2)<>0 then if jd$<>"" then a$=jd$:return
+63180 return
+63190 return
+63200 rem evidenzia opzione splash
+63210 poke 214,sr:poke 211,10:sys 58640:print chr$(149);chr$(18);"[i]";
+63212 poke 214,sr+1:poke 211,10:sys 58640:print"[g]";
+63214 if jo=1 then poke 214,sr:poke 211,10:sys 58640:print">";chr$(146);"i";chr$(18);"<";
+63216 if jo=2 then poke 214,sr+1:poke 211,10:sys 58640:print">";chr$(146);"g";chr$(18);"<";
+63220 return
+63400 rem evidenzia selezione carta
+63402 poke 214,23
+63405 poke 211,2:sys 58640:print chr$(144);"   ";:poke 211,9:sys 58640:print"   ";:poke 211,16:sys 58640:print"   ";
+63406 if g(1,1)>0 then poke 211,2:sys 58640:print chr$(144);"[1]";
+63407 if g(2,1)>0 then poke 211,9:sys 58640:print"[2]";
+63408 if g(3,1)>0 then poke 211,16:sys 58640:print"[3]";
+63410 if jc=1 then poke 211,2:sys 58640:print">";chr$(18);"1";chr$(146);"<";
+63412 if jc=2 then poke 211,9:sys 58640:print">";chr$(18);"2";chr$(146);"<";
+63414 if jc=3 then poke 211,16:sys 58640:print">";chr$(18);"3";chr$(146);"<";
+63420 return
+63600 rem evidenzia s/n
+63605 poke 214,12:poke 211,14:sys 58640:print chr$(144);chr$(18);"[s]";
+63610 poke 211,18:sys 58640:print"[n]";
+63615 if jo=1 then poke 214,12:poke 211,14:sys 58640:print">";chr$(146);"s";chr$(18);"<";
+63620 if jo=2 then poke 214,12:poke 211,18:sys 58640:print">";chr$(146);"n";chr$(18);"<";
+63625 return
+63700 rem input nome controllato
+63701 w5=len(n$)+1:jk=0:jn=1:jp=31:print chr$(28);
+63702 print n$;
+63704 print chr$(17);chr$(157);" ";chr$(144);"^";chr$(28);chr$(145);chr$(157);
+63705 get a$:jl$=chr$(157):jr$=chr$(29):jf$=chr$(133):ju$=chr$(145):jd$="":gosub 63100
+63706 if a$="" then gosub 63190:goto 63705
+63708 if a$=chr$(157) then jn=jn-1:if jn<1 then jn=27
+63709 if a$=chr$(157) then goto 63704
+63710 if a$=chr$(29) then jn=jn+1:if jn>27 then jn=1
+63711 if a$=chr$(29) then goto 63704
+63712 if a$=chr$(133) and jk=0 then a$=chr$(13):goto 63716
+63713 if a$=chr$(133) and jn<=26 then a$=chr$(64+jn):goto 63716
+63714 if a$=chr$(133) then a$=" ":goto 63716
+63715 if a$=chr$(145) then a$=chr$(13):goto 63716
+63716 w6=asc(a$)
+63718 if(w6<65 or w6>90) and w6<>13 and w6<>20 and w6<>32 then goto 63705
+63720 if w6=13 and n$="" then goto 63705
+63721 if w6=13 then print chr$(17);" ":goto 63740
+63722 if w6=20 and jk=0 then gosub 63750:n$=left$(n$,len(n$)-1):w5=len(n$)+1:jk=1:print n$;:goto 63704
+63724 if w6=20 and w5<=1 then goto 63704
+63726 if w6=20 then print chr$(17);" ";chr$(145);chr$(157);chr$(157);" ";chr$(157);:n$=left$(n$,len(n$)-1):w5=w5-1:goto 63704
+63728 if jk=0 then n$="":gosub 63750:w5=1:jk=1
+63730 if w5>w9 then goto 63705
+63732 print a$;:n$=n$+a$
+63734 w5=w5+1:goto 63704
+63740 return
+63750 rem pulisci campo nome
+63752 w8=w5-1:for w7=1 to w8:print chr$(157);:next:for w7=1 to w8:print" ";:next:for w7=1 to w8:print chr$(157);:next
+63754 print chr$(17);:for w7=0 to w8:print" ";:next:for w7=0 to w8:print chr$(157);:next:print chr$(145);
+63756 return
+63800 rem conferma nome
+63805 poke 214,5:poke 211,12:sys 58640:print chr$(144);"va bene? [s] [n]";
+63810 jo=1:jp=31:gosub 63850
+63815 poke 198,0
+63820 get a$:jl$="l":jr$="r":jf$="f":ju$="":jd$="":gosub 63100
+63822 if a$="" then gosub 63190:goto 63820
+63824 if a$="l" then jo=1:gosub 63850:goto 63820
+63826 if a$="r" then jo=2:gosub 63850:goto 63820
+63828 if(a$="f" or a$=" " or a$=chr$(13)) and jo=1 then a$="s"
+63830 if(a$="f" or a$=" " or a$=chr$(13)) and jo=2 then a$="n"
+63832 if a$="s" then return
+63834 if a$<>"n" then 63820
+63836 return
+63850 rem evidenzia conferma s/n
+63852 poke 214,5:poke 211,21:sys 58640:print chr$(144);"[s]";
+63854 poke 211,25:sys 58640:print"[n]";
+63856 if jo=1 then poke 214,5:poke 211,21:sys 58640:print">";chr$(18);"s";chr$(146);"<";
+63858 if jo=2 then poke 214,5:poke 211,25:sys 58640:print">";chr$(18);"n";chr$(146);"<";
+63860 return
 63900 rem verifica se il comando card e' stato caricato in memoria
 63905 if k1=0 then print"variabile k1 non inizializzata":goto 63960
 63910 w1=peek(k1+120)
