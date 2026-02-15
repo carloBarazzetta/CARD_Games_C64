@@ -12,7 +12,7 @@ Cards are displayed using redefined graphic symbols.
 
 It is possible to display any type of card anywhere on the screen.
 
-![./Briscola](./Briscola.png)
+![./CARD_Games_Start](./CARD_Games_Start.gif)
 
 _In the image, an example of playing cards printed randomly as the initial background of the "Briscola" game written in BASIC using the CARD program._
 

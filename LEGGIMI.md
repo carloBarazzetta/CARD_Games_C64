@@ -12,7 +12,7 @@ Le carte sono visualizzate con simboli grafici ridefiniti.
 
 E' possibile visualizzare ogni tipo di carta in ogni parte del video.
 
-![./Briscola](./Briscola.png)
+![./CARD_Games_Start](./CARD_Games_Start.gif)
 
 _Nell'immagine un esempio di carte da gioco stampate in modo "random" come sfondo iniziale del gioco "Briscola" scritto in BASIC sfruttando il programma CARD._
 
