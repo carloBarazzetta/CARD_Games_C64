@@ -14,7 +14,7 @@ E' possibile visualizzare ogni tipo di carta in ogni parte del video.
 
 ![./CARD_Games_Start](./CARD_Games_Start.gif)
 
-_Nell'immagine un esempio di carte da gioco stampate in modo "random" come sfondo iniziale del gioco "Briscola" scritto in BASIC sfruttando il programma CARD._
+_Nell'animazione un esempio di CARDS stampate in modo "random" come sfondo iniziale del gioco "Poker4-en" scritto in BASIC sfruttando il programma CARD (velocità in tempo reale)._
 
 Nel 1985 Carlo e Lorenzo Barazzetta hanno sviluppato la libreria "CARD", con la quale hanno poi sviluppato 3 giochi, pubblicati da Systems Editoriale negli anni seguenti:
 

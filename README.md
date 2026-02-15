@@ -14,7 +14,7 @@ It is possible to display any type of card anywhere on the screen.
 
 ![./CARD_Games_Start](./CARD_Games_Start.gif)
 
-_In the image, an example of playing cards printed randomly as the initial background of the "Briscola" game written in BASIC using the CARD program._
+_In this animation, an example of CARDS printed randomly as the initial background of the "Poker4-en" game written in BASIC using the CARD program (real-time speed)._
 
 In 1985, Carlo and Lorenzo Barazzetta developed the "CARD" library, with which they then developed 3 games, published by Systems Editoriale in the following years.
 
